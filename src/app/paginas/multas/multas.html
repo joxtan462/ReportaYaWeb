@@ -1,0 +1,52 @@
+<div class="container">
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+      <a class="app-name" routerLink="/menu">ReportaYa</a>
+    </div>
+    <div class="usuario">Usuario: #######</div>
+  </header>
+
+  <!-- Contenido principal -->
+  <div class="tabla-container">
+    <h1 class="titulo-alertas">Lista de Multas</h1>
+
+    <!-- Filtros -->
+    <div class="filtros">
+      <input type="text" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
+      <input type="text" placeholder="Buscar por infracción" [(ngModel)]="filtroInfraccion" class="filtro-input">
+      <input type="text" placeholder="Buscar por comentarios" [(ngModel)]="filtroComentarios" class="filtro-input">
+      <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input">
+      <input type="text" placeholder="Buscar por patente" [(ngModel)]="filtroPatente" class="filtro-input">
+    </div>
+
+    <!-- Tabla de multas -->
+    <table class="tabla-alertas">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Infracción</th>
+          <th>Comentarios</th>
+          <th>Ubicación</th>
+          <th>Patente</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let multa of multas | filterMultas:filtroFecha:filtroInfraccion:filtroComentarios:filtroUbicacion:filtroPatente">
+          <td>{{ multa.id }}</td>
+          <td>{{ multa.fecha }}</td>
+          <td>{{ multa.infraccion }}</td>
+          <td>{{ multa.comentarios }}</td>
+          <td>{{ multa.ubicacion }}</td>
+          <td>{{ multa.patente }}</td>
+          <td><button class="btn-lupa">🔍</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

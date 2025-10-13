@@ -1,0 +1,82 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <a class="app-name" routerLink="/menu">ReportaYa</a>
+  </div>
+  <div class="usuario">Usuario: #######</div>
+</header>
+
+<div class="detalle-container">
+  <h1 class="titulo-detalle">Detalle de Alerta</h1>
+
+  <!-- Información general -->
+  <section class="card">
+    <h2>Información General</h2>
+    <div class="info-grid">
+      <p><strong>ID:</strong> {{ alerta.id }}</p>
+
+      <p>
+        <strong>Prioridad:</strong>
+        <select [(ngModel)]="alerta.prioridad" class="select-prioridad">
+          <option value="Alta">Alta</option>
+          <option value="Media">Media</option>
+          <option value="Baja">Baja</option>
+        </select>
+      </p>
+
+      <p><strong>Ubicación:</strong> {{ alerta.ubicacion }}</p>
+      <p><strong>Fecha:</strong> {{ alerta.fecha }}</p>
+      <p><strong>Nombre de alerta:</strong> {{ alerta.nombre }}</p>
+      <p>
+        <strong>Descripción:</strong><br>
+        <textarea [(ngModel)]="alerta.descripcion" rows="4" class="descripcion-textarea"></textarea>
+      </p>
+    </div>
+  </section>
+
+  <!-- Estado -->
+  <section class="card">
+    <h2>Estado</h2>
+    <label><input type="checkbox" [(ngModel)]="alerta.estado.enProceso"> En proceso</label>
+    <label><input type="checkbox" [(ngModel)]="alerta.estado.enTerreno"> En terreno</label>
+    <label><input type="checkbox" [(ngModel)]="alerta.estado.concluido"> Concluido por inspector</label>
+  </section>
+
+  <!-- Local -->
+  <section class="card">
+    <h2>Local</h2>
+    <label><input type="checkbox" [(ngModel)]="alerta.local.inspector1"> Inspector 1</label>
+    <label><input type="checkbox" [(ngModel)]="alerta.local.inspector2"> Inspector 2</label>
+  </section>
+
+  <!-- Derivado Externo -->
+  <section class="card">
+    <h2>Derivado Externo</h2>
+    <label><input type="checkbox" [(ngModel)]="alerta.derivadoExterno.carabineros"> Carabineros</label>
+    <label><input type="checkbox" [(ngModel)]="alerta.derivadoExterno.bomberos"> Bomberos</label>
+  </section>
+
+  <!-- Visibilidad -->
+  <section class="card">
+    <h2>Visibilidad</h2>
+    <div class="visibilidad">
+      <strong>Privado / Público:</strong>
+      <select [(ngModel)]="alerta.privado">
+        <option [ngValue]="true">Privado</option>
+        <option [ngValue]="false">Público</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Imagen / Video -->
+  <section class="card imagen-video">
+    <img [src]="alerta.imagenVideo" alt="Imagen/Video alerta">
+  </section>
+
+  <!-- Acciones -->
+  <section class="acciones">
+    <button class="btn btn-rechazar" (click)="rechazar()">RECHAZAR</button>
+    <button class="btn btn-resuelto" (click)="resuelto()">RESUELTO</button>
+    <button routerLink="/alertasvecinales" class="btn btn-volver">← Volver</button>
+  </section>
+</div>

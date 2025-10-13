@@ -1,0 +1,70 @@
+/* Login */
+body.Centro {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ab0000; /* rojo */
+}
+
+.login-container {
+  background: white;
+  padding: 3%;
+  border-radius: 3%;
+  box-shadow: 0px 2% 3% rgba(0,0,0,0.2);
+  width: 25%;
+  text-align: center;
+}
+
+.Titulo {
+  font-size: 200%;
+  margin-bottom: 10%;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-top: 4%;
+  text-align: left;
+  font-weight: bold;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 3%;
+  margin-top: 2%;
+  border: 1% solid #ccc;
+  border-radius: 6px;
+  font-size: 100%;
+}
+
+input:focus {
+  border-color: #ab0000;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 4%;
+  margin-top: 6%;
+  background-color: #ab0000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 120%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #900000;
+}
+
+.logo {
+  width: 9%;
+  height: 100%;
+}

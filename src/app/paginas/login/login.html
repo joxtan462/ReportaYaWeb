@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<header class="navbar">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <h2 class="app-name">ReportaYa</h2>
+  </header>
+<body class="Centro">
+    
+  <div class="login-container">
+    <h1 class="Titulo">Iniciar Sesión</h1>
+
+    <label for="usuario" class="Usuario">Usuario</label>
+    <input type="text" id="usuario" placeholder="Ingresa tu usuario">
+
+    <label for="contraseña" class="Contraseña">Contraseña</label>
+    <input type="password" id="contraseña" placeholder="Ingresa tu contraseña">
+
+    <button [routerLink]="'/menu'">Iniciar Sesión</button>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <a class="app-name" routerLink="/menu">ReportaYa</a>
+  </div>
+  <div class="usuario">Usuario: #######</div>
+</header>
+
+
+
+<div class="tabla-container">
+  <h1 class="titulo-alertas">Lista de Alertas Vecinales</h1>
+  <div class="filtros">
+    <input type="text" placeholder="Buscar por nombre" [(ngModel)]="filtroNombre" class="filtro-input">
+    <input type="text" placeholder="Buscar por descripción" [(ngModel)]="filtroDescripcion" class="filtro-input">
+    <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input">
+    <input type="text" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
+  </div>
+
+  <table class="tabla-alertas">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Ubicación</th>
+        <th>Prioridad</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let alerta of alertas | filterAlertas:filtroNombre:filtroDescripcion:filtroUbicacion:filtroFecha">
+        <td>{{ alerta.fecha }}</td>
+        <td>{{ alerta.nombre }}</td>
+        <td>{{ alerta.descripcion }}</td>
+        <td>{{ alerta.ubicacion }}</td>
+        <td>
+          <select [(ngModel)]="alerta.prioridad" class="select-prioridad">
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn-lupa" (click)="irADetalle(alerta)">🔍</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+

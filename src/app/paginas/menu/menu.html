@@ -1,0 +1,21 @@
+
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <h2 class="app-name">ReportaYa</h2>
+  </div>
+  <div class="navbar-right">
+    Usuario: #######
+  </div>
+</header>
+
+<div class="menu-container">
+    <button [routerLink]="'/alertasvecinales'" class="menu-btn">Alertas Vecinales</button>
+    <button class="menu-btn" [routerLink]="'/camarassolicitadas'">Petición de Cámaras</button>
+    <button class="menu-btn">Mapa</button>
+    <button class="menu-btn" [routerLink]="'/multas'">Multas/Partes</button>
+</div>
+
+<div class="logout-container">
+  <button class="logout-btn" [routerLink]="'/'">Cerrar Sesión</button>
+</div>
