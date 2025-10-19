@@ -6,22 +6,23 @@
   <div class="usuario">Usuario: #######</div>
 </header>
 
-
-
 <div class="tabla-container">
   <h1 class="titulo-alertas">Lista de Alertas Vecinales</h1>
+
+  <!-- Filtros -->
   <div class="filtros">
-    <input type="text" placeholder="Buscar por nombre" [(ngModel)]="filtroNombre" class="filtro-input">
+    <input type="text" placeholder="Buscar por correo" [(ngModel)]="filtroNombre" class="filtro-input">
     <input type="text" placeholder="Buscar por descripción" [(ngModel)]="filtroDescripcion" class="filtro-input">
     <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input">
     <input type="text" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
   </div>
 
+  <!-- Tabla de alertas -->
   <table class="tabla-alertas">
     <thead>
       <tr>
         <th>Fecha</th>
-        <th>Nombre</th>
+        <th>Correo</th>
         <th>Descripción</th>
         <th>Ubicación</th>
         <th>Prioridad</th>
@@ -29,27 +30,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let alerta of alertas | filterAlertas:filtroNombre:filtroDescripcion:filtroUbicacion:filtroFecha">
-        <td>{{ alerta.fecha }}</td>
-        <td>{{ alerta.nombre }}</td>
-        <td>{{ alerta.descripcion }}</td>
-        <td>{{ alerta.ubicacion }}</td>
-        <td>
-          <select [(ngModel)]="alerta.prioridad" class="select-prioridad">
-            <option value="Alta">Alta</option>
-            <option value="Media">Media</option>
-            <option value="Baja">Baja</option>
-          </select>
-        </td>
-        <td>
-          <button class="btn-lupa" (click)="irADetalle(alerta)">🔍</button>
-        </td>
-      </tr>
+      <tr *ngFor="let alerta of ((alertas$ | async) || []) | filterAlertas:filtroNombre:filtroDescripcion:filtroUbicacion:filtroFecha">
+      <td>{{ alerta.creadoEn?.toDate ? (alerta.creadoEn.toDate() | date:'yyyy-MM-dd') : alerta.creadoEn }}</td>
+      <td>{{ alerta.usuarioEmail }}</td>
+      <td>{{ alerta.descripcion }}</td>
+      <td>{{ alerta.ubicacion }}</td>
+      <td>
+    <select [(ngModel)]="alerta.prioridad"
+            (change)="cambiarPrioridad(alerta, alerta.prioridad)"
+            class="select-prioridad">
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+  </td>
+  <td>
+    <button class="btn-lupa" (click)="irADetalle(alerta)">🔍</button>
+  </td>
+</tr>
     </tbody>
   </table>
 </div>
-
-
-
-
-

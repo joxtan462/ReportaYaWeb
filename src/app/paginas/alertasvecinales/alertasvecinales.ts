@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilterAlertasPipe } from './filter-alertas.pipe';
 import { RouterModule, Router } from '@angular/router';
- 
+import { Firestore, collection, collectionData, doc, updateDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-alertasvecinales',
   standalone: true,
@@ -12,27 +14,34 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./alertasvecinales.css']
 })
 export class AlertasVecinales {
-  alertas = [
-    { id: 1, fecha: '2025-10-03', nombre: 'Juan Pérez', descripcion: 'Personas peleando en la plaza con cuchillos y muchos gritos', ubicacion: 'Guafo 1002, San Bernardo', prioridad: 'Alta' },
-    { id: 2, fecha: '2025-10-02', nombre: 'María López', descripcion: 'Robo con violencia en local comercial', ubicacion: 'Calle 123', prioridad: 'alta' },
-    { id: 3, fecha: '2025-10-01', nombre: 'Carlos Gómez', descripcion: 'Ruido fuerte de madrugada', ubicacion: 'Barrio Norte', prioridad: 'Baja' }
-  ];
+  alertas$!: Observable<any[]>;
 
-   constructor(private router: Router) {}
+  filtroNombre = '';
+  filtroDescripcion = '';
+  filtroUbicacion = '';
+  filtroFecha = '';
+
+  constructor(private firestore: Firestore, private router: Router) {
+    const alertasRef = collection(this.firestore, 'reportes');
+    this.alertas$ = collectionData(alertasRef, { idField: 'id' });
+  }
+
+  async cambiarPrioridad(alerta: any, nuevaPrioridad: string) {
+    try {
+      const docRef = doc(this.firestore, `reportes/${alerta.id}`);
+      await updateDoc(docRef, { prioridad: nuevaPrioridad });
+      console.log(`✅ Prioridad actualizada para ${alerta.id}: ${nuevaPrioridad}`);
+    } catch (error) {
+      console.error('❌ Error al actualizar prioridad:', error);
+    }
+  }
 
   irADetalle(alerta: any) {
     const id = alerta?.id?.toString();
-    console.log('irADetalle id ->', id);
     if (!id) {
       alert('ID inválido, no se puede abrir detalle.');
       return;
     }
     this.router.navigate(['/alertadetalle', id]);
   }
-  filtroNombre: string = '';
-  filtroDescripcion: string = '';
-  filtroUbicacion: string = '';
-  filtroFecha: string = '';
-  
 }
-

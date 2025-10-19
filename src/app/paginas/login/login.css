@@ -1,4 +1,8 @@
-/* Login */
+
+
+/* ==========================
+   Body / Centro
+   ========================== */
 body.Centro {
   margin: 0;
   padding: 0;
@@ -6,24 +10,43 @@ body.Centro {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ab0000; /* rojo */
+  background: linear-gradient(135deg, #ab0000, #7a0000);
+  font-family: 'League Spartan', sans-serif;
 }
 
+/* ==========================
+   Login Container
+   ========================== */
 .login-container {
-  background: white;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
   padding: 3%;
-  border-radius: 3%;
-  box-shadow: 0px 2% 3% rgba(0,0,0,0.2);
+  border-radius: 16px;
+  box-shadow: 8px 8px 20px rgba(0,0,0,0.2),
+              -6px -6px 18px rgba(255,255,255,0.8);
   width: 25%;
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.login-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 12px 12px 25px rgba(0,0,0,0.25),
+              -8px -8px 20px rgba(255,255,255,0.9);
+}
+
+/* ==========================
+   Title
+   ========================== */
 .Titulo {
-  font-size: 200%;
+  font-size: 2rem;
   margin-bottom: 10%;
   color: #333;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 }
 
+/* ==========================
+   Labels and Inputs
+   ========================== */
 label {
   display: block;
   margin-top: 4%;
@@ -36,35 +59,44 @@ input {
   width: 100%;
   padding: 3%;
   margin-top: 2%;
-  border: 1% solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 100%;
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05),
+              inset -2px -2px 6px rgba(255,255,255,0.7);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus {
   border-color: #ab0000;
+  box-shadow: 0 0 8px rgba(171,0,0,0.15),
+              inset 2px 2px 6px rgba(0,0,0,0.08);
   outline: none;
 }
 
+/* ==========================
+   Buttons
+   ========================== */
 button {
   width: 100%;
   padding: 4%;
   margin-top: 6%;
-  background-color: #ab0000;
+  background: linear-gradient(145deg, #ab0000, #900000);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   font-weight: bold;
   font-size: 120%;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.2),
+              -3px -3px 8px rgba(255,255,255,0.7);
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 button:hover {
-  background-color: #900000;
-}
-
-.logo {
-  width: 9%;
-  height: 100%;
+  background: #000;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.25),
+              -4px -4px 10px rgba(255,255,255,0.8);
 }

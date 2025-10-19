@@ -1,85 +1,111 @@
-/* Navbar */
+/* ==========================
+   Navbar
+   ========================== */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 8%;
-  background-color: white;
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1%;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  padding: 0 2%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
   font-family: 'League Spartan', sans-serif;
   z-index: 1000;
 }
+.navbar-right {
+  margin-right: 4%;
+}
+.navbar-left, .navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 .logo {
-  height: 40px;
-  margin-right: 10px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.15),
+              -3px -3px 6px rgba(255, 255, 255, 0.8);
+  background: linear-gradient(145deg, #ffffff, #ececec);
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.logo:hover {
+  transform: translateY(-2px) scale(1.05);
 }
 
 .app-name {
-  font-size: 1.6rem;
+  font-size: 2.8rem;
   font-weight: bold;
   color: #000;
+  text-decoration: none;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  transition: color 0.3s, transform 0.2s;
+  cursor: pointer;
 }
 
+.app-name:hover {
+  color: #900000;
+  transform: translateY(-2px);
+}
 
+.user-display {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.1),
+              -3px -3px 6px rgba(255,255,255,0.8);
+}
+
+/* ==========================
+   Menu buttons
+   ========================== */
 .menu-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10%;
-  width: 100%;
+  gap: 12%;
+  width: 90%;
   max-width: 600px;
   margin: 15% auto 0 auto;
   text-align: center;
 }
 
-
 .menu-btn {
-  padding: 20%;
-  font-size: 1.5rem;
+  padding: 25%;
+  font-size: 1.6rem;
   font-weight: bold;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  color: #000;
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 6px 6px 15px rgba(0,0,0,0.15),
+              -4px -4px 10px rgba(255, 255, 255, 0.8);
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .menu-btn:hover {
-  background-color: #900000;
+  background: #e23232;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 18px rgba(0,0,0,0.25),
+              -5px -5px 12px rgba(255,255,255,0.9);
 }
 
-.navbar-right {
-    margin-right: 5%;
-  display: flex;
-  align-items: center;
-}
-
-.navbar-left {
-  display: flex;
-  align-items: center;
-}
-
-
-.app-name {
-
-  font-size: 3.0rem;
-  font-weight: bold;
-  color: #000;
-}
-
-
-.user-display {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #000;
-}
-
+/* ==========================
+   Logout button
+   ========================== */
 .logout-container {
   position: fixed;
   bottom: 10%;        
@@ -89,21 +115,33 @@
 }
 
 .logout-btn {
-  padding: 2% 3%;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  padding: 2% 4%;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  color: #000;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.15),
+              -3px -3px 8px rgba(255,255,255,0.8);
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .logout-btn:hover {
-  background-color: #900000;
+  background: #900000;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 16px rgba(102, 100, 100, 0.25),
+              -4px -4px 10px rgba(255,255,255,0.9);
 }
-.logo {
-  width: 9%;
-  height: 100%;
+
+/* ==========================
+   Responsive
+   ========================== */
+@media (max-width: 768px) {
+  .app-name { font-size: 2rem; }
+  .logo { width: 50px; height: 50px; }
+  .menu-container { grid-template-columns: 1fr; gap: 15%; margin-top: 25%; }
+  .menu-btn { padding: 20%; font-size: 1.4rem; }
 }

@@ -1,143 +1,212 @@
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 8%;
-  background: white;
+  background: linear-gradient(180deg, #ffffff, #f8f8f8);
   display: flex;
   align-items: center;
-  justify-content: space-between; /* izquierda y derecha */
-  padding: 0 20px;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  justify-content: space-between;
+  padding: 0 25px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   z-index: 1000;
   font-family: 'League Spartan', sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .navbar-left {
   display: flex;
-  align-items: center; /* logo y texto alineados */
-}
-
-
-
-.app-name {
-  font-size: 3.0rem;
-  font-weight: bold;
-  color: #000;
-  margin: 0;
-  text-decoration: none;
-  cursor: pointer;
-}
-.app-name:hover {
-  color: #900000;
-}
-.usuario {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #000000;
-  margin-right: 3%;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo {
-  width: 9%;
-  height: 100%;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.15),
+    -3px -3px 6px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #ececec);
+  padding: 5px;
 }
 
+.app-name {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  transition: color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.app-name:hover {
+  color: #900000;
+  transform: translateY(-2px);
+}
+
+.usuario {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #222;
+  margin-right: 3%;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.1),
+    -3px -3px 6px rgba(255, 255, 255, 0.8);
+}
+
+
 .tabla-container {
-  margin: 6% auto;
+  margin: 7% auto;
   width: 90%;
   max-width: 1200px;
-  background: #fff;
+  background: linear-gradient(145deg, #ffffff, #f6f6f6);
   padding: 2%;
-  border-radius: 12px;
-  box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
+  border-radius: 16px;
+  box-shadow:
+    8px 8px 20px rgba(0, 0, 0, 0.15),
+    -6px -6px 18px rgba(255, 255, 255, 0.9);
   font-family: 'League Spartan', sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.tabla-container:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    12px 12px 25px rgba(0, 0, 0, 0.18),
+    -8px -8px 20px rgba(255, 255, 255, 0.95);
+}
+
 
 .titulo-alertas {
   text-align: center;
-  margin-bottom: 5%;
+  margin-bottom: 4%;
   font-family: 'League Spartan', sans-serif;
   font-size: 3rem;
   color: #ab0000;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
+
+
 .filtros {
-  margin-top: 5%;
+  margin-top: 3%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 15px;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
+
 .filtro-input {
   flex: 1 1 22%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.3s;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #f7f7f7);
+  box-shadow:
+    inset 2px 2px 6px rgba(0,0,0,0.05),
+    inset -2px -2px 6px rgba(255,255,255,0.8);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 .filtro-input:focus {
   border-color: #ab0000;
+  box-shadow:
+    inset 2px 2px 6px rgba(0,0,0,0.08),
+    0 0 8px rgba(171, 0, 0, 0.15);
   outline: none;
 }
+
+
 .tabla-alertas {
-  margin-top: 5%;
+  margin-top: 3%;
   width: 100%;
   border-collapse: collapse;
-  font-family: 'League Spartan', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
 .tabla-alertas th {
-  background-color: #ab0000;
+  background: linear-gradient(180deg, #ab0000, #900000);
   color: #fff;
-  padding: 12px;
-  text-align: center;
+  padding: 14px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 
 .tabla-alertas td {
   padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-
-.tabla-alertas tr:hover {
-  background-color: #f9f9f9;
-}
-
-.btn-lupa {
-  background: #ab0000;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1.2rem;
+  background: linear-gradient(180deg, #ffffff, #f9f9f9);
+  border-bottom: 1px solid #e0e0e0;
   transition: background 0.3s;
 }
 
+.tabla-alertas tr:hover td {
+  background: #ffffff;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+
+.btn-lupa {
+  background: linear-gradient(180deg, #ab0000, #900000);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:
+    4px 4px 10px rgba(0, 0, 0, 0.2),
+    -2px -2px 6px rgba(255, 255, 255, 0.6);
+}
+
 .btn-lupa:hover {
-  background: #900000;
+  transform: translateY(-2px);
+  box-shadow:
+    6px 6px 14px rgba(0, 0, 0, 0.25),
+    -3px -3px 8px rgba(255, 255, 255, 0.8);
 }
 
 .select-prioridad {
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
-  font-family: 'League Spartan', sans-serif;
   text-align: center;
-  cursor: pointer;
   font-weight: bold;
-  transition: border-color 0.3s, background 0.3s;
+  background: linear-gradient(145deg, #fff, #f3f3f3);
+  box-shadow:
+    inset 2px 2px 5px rgba(0,0,0,0.05),
+    inset -2px -2px 5px rgba(255,255,255,0.8);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .select-prioridad:focus {
   border-color: #ab0000;
+  box-shadow:
+    inset 2px 2px 6px rgba(0,0,0,0.08),
+    0 0 8px rgba(171, 0, 0, 0.1);
   outline: none;
 }
+
 .select-prioridad option[value="Alta"] {
   background-color: #e53935;
   color: #fff;
@@ -145,7 +214,7 @@
 
 .select-prioridad option[value="Media"] {
   background-color: #fbc02d;
-  color: #fff;
+  color: #000;
 }
 
 .select-prioridad option[value="Baja"] {
@@ -153,3 +222,13 @@
   color: #fff;
 }
 
+/* ================================
+   Responsividad
+   ================================ */
+@media (max-width: 1024px) {
+  .app-name { font-size: 2.2rem; }
+  .logo { width: 50px; height: 50px; }
+  .tabla-container { margin-top: 12%; width: 95%; }
+  .filtros { flex-direction: column; gap: 8px; }
+  .filtro-input { flex: 1 1 100%; }
+}
