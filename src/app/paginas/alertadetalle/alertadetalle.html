@@ -6,94 +6,152 @@
   <div class="usuario">Usuario: #######</div>
 </header>
 
-<div class="detalle-container">
+<!-- ✅ Protegemos todo el contenido con *ngIf -->
+<div *ngIf="alerta; else cargando" class="detalle-container">
   <h1 class="titulo-detalle">Detalle de Alerta</h1>
 
-  <!-- Información general -->
-  <section class="card">
-    <h2>Información General</h2>
-    <div class="info-grid">
-      <p><strong>ID:</strong> {{ alerta.id }}</p>
-      <p><strong>Fecha:</strong> {{ alerta.creadoEn | date: 'dd/MM/yyyy HH:mm' }}</p>
-      <p><strong>Ubicación:</strong> {{ alerta.ubicacion }}</p>
+  <div class="detalle-content">
+    <!-- Información general -->
+    <section class="card info-card">
+      <h2>Información General</h2>
 
-      <p>
-        <strong>Prioridad:</strong>
-        <select
-          [(ngModel)]="alerta.prioridad"
-          (change)="onPrioridadChange()"
-          class="select-prioridad"
-        >
-          <option value="Alta">Alta</option>
-          <option value="Media">Media</option>
-          <option value="Baja">Baja</option>
-        </select>
-      </p>
+      <div class="info-grid">
+        <p><strong>ID:</strong> {{ alerta.id }}</p>
 
-      <p>
-        <strong>Visibilidad:</strong>
-        <select
-          [(ngModel)]="alerta.privado"
-          (change)="onVisibilidadChange()"
-          class="select-visibilidad"
-        >
-          <option [ngValue]="true">Privado</option>
-          <option [ngValue]="false">Público</option>
-        </select>
-      </p>
+        <p>
+          <strong>Fecha:</strong>
+          {{ alerta.fecha | date: 'dd/MM/yyyy, h:mm a' }}
+        </p>
 
-      <!-- Estado -->
-      <div class="estado-section">
-        <strong>Estado:</strong>
-        <div class="estado-checks">
-          <label class="estado-item pendiente">
-            <input
-              type="checkbox"
-              [(ngModel)]="alerta.estado.pendiente"
-              (change)="actualizarEstado('pendiente', alerta.estado.pendiente)"
-            />
-            Pendiente
-          </label>
+        <p><strong>Ubicación:</strong> {{ alerta.ubicacion }}</p>
 
-          <label class="estado-item terreno">
-            <input
-              type="checkbox"
-              [(ngModel)]="alerta.estado.enTerreno"
-              (change)="actualizarEstado('enTerreno', alerta.estado.enTerreno)"
-            />
-            En Terreno
-          </label>
+        <!-- Categoría principal -->
+        <p>
+          <strong>Categoría:</strong>
+          <select
+            [(ngModel)]="alerta.categoria"
+            (change)="onCategoriaChange()"
+            class="select-categoria"
+          >
+            <option value="" disabled selected>Seleccione una categoría</option>
+            <option *ngFor="let cat of categorias" [value]="cat.FAMILIA">
+              {{ cat.FAMILIA }}
+            </option>
+          </select>
+        </p>
 
-          <label class="estado-item concluido">
-            <input
-              type="checkbox"
-              [(ngModel)]="alerta.estado.concluido"
-              (change)="actualizarEstado('concluido', alerta.estado.concluido)"
-            />
-            Concluido
-          </label>
+        <!-- Subcategoría dependiente -->
+        <p *ngIf="subcategoriasFiltradas.length > 0">
+          <strong>Subcategoría:</strong>
+          <select
+            [(ngModel)]="alerta.subcategoria"
+            (change)="onSubcategoriaChange()"
+            class="select-subcategoria"
+          >
+            <option value="" disabled selected>Seleccione una subcategoría</option>
+            <option *ngFor="let sub of subcategoriasFiltradas" [value]="sub">
+              {{ sub }}
+            </option>
+          </select>
+        </p>
+
+        <p>
+          <strong>Prioridad:</strong>
+          <select
+            [(ngModel)]="alerta.prioridad"
+            (change)="onPrioridadChange()"
+            class="select-prioridad"
+          >
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+        </p>
+
+        <p>
+          <strong>Visibilidad:</strong>
+          <select
+            [(ngModel)]="alerta.visibilidad"
+            (change)="onVisibilidadChange()"
+            class="select-visibilidad"
+          >
+            <option [ngValue]="true">Privado</option>
+            <option [ngValue]="false">Público</option>
+          </select>
+        </p>
+
+        <!-- Estado -->
+        <div class="estado-section">
+          <strong>Estado:</strong>
+          <div class="estado-checks">
+            <label class="estado-item pendiente">
+              <input
+                type="checkbox"
+                [(ngModel)]="alerta.estado.pendiente"
+                (change)="actualizarEstado('pendiente', alerta.estado.pendiente)"
+              />
+              Pendiente
+            </label>
+
+            <label class="estado-item enProceso">
+              <input
+                type="checkbox"
+                [(ngModel)]="alerta.estado.enProceso"
+                (change)="actualizarEstado('enProceso', alerta.estado.enProceso)"
+              />
+              En Proceso
+            </label>
+
+            <label class="estado-item resuelto">
+              <input
+                type="checkbox"
+                [(ngModel)]="alerta.estado.resuelto"
+                (change)="actualizarEstado('resuelto', alerta.estado.resuelto)"
+              />
+              Resuelto
+            </label>
+          </div>
         </div>
+
+        <p class="descripcion">
+          <strong>Descripción:</strong><br />
+          <textarea
+            [(ngModel)]="alerta.descripcion"
+            rows="4"
+            class="descripcion-textarea"
+            (ngModelChange)="onDescripcionChange()"
+          ></textarea>
+        </p>
       </div>
 
-      <p class="descripcion">
-        <strong>Descripción:</strong><br />
-        <textarea
-          [(ngModel)]="alerta.descripcion"
-          rows="4"
-          class="descripcion-textarea"
-        ></textarea>
-      </p>
-    </div>
-  </section>
+      <!-- Botones de acción -->
+      <div class="acciones">
+        <button routerLink="/alertasvecinales" class="btn btn-volver">
+          ← Volver
+        </button>
+        <button class="btn btn-eliminar" (click)="eliminarReporte(alerta.id)">
+          🗑️ Eliminar
+        </button>
+      </div>
+    </section>
 
-  <!-- Imagen o video -->
-  <section class="card imagen-video">
-    <h2>Registro Visual</h2>
-    <img [src]="alerta.fotoURL || alerta.imagenVideo" alt="Imagen/Video alerta" />
-  </section>
-
-  <!-- Botones -->
-  <section class="acciones">
-    <button routerLink="/alertasvecinales" class="btn btn-volver">← Volver</button>
-  </section>
+    <!-- Imagen / Video -->
+    <section class="card media-card">
+      <h2>Registro Visual</h2>
+      <div class="imagen-container">
+        <img
+          [src]="alerta.fotoURL || alerta.imagenVideo"
+          alt="Imagen/Video alerta"
+          class="imagen-alerta"
+        />
+      </div>
+    </section>
+  </div>
 </div>
+
+<!-- ✅ Template mostrado mientras carga el documento -->
+<ng-template #cargando>
+  <div class="loading">
+    <p>⏳ Cargando alerta...</p>
+  </div>
+</ng-template>

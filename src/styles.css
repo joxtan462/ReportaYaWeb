@@ -1,18 +1,20 @@
-/* Globales */
+/* 🌎 Fondo general */
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #ab0000; /* rojo general */
+  height: 100%; /* 🔹 Importante: garantiza que el mapa calcule bien su tamaño */
   font-family: 'League Spartan', sans-serif;
+  background: linear-gradient(135deg, #58a2f7 0%, #ffffff 100%);
 }
 
-/* Asegurar que app-root ocupe toda la pantalla */
+/* 🔹 El app-root debe ocupar toda la pantalla */
 app-root {
   display: block;
   height: 100%;
+  width: 100%;
 }
 
-/* Navbar */
+/* 🔹 Navbar global (para otras páginas también) */
 .navbar {
   position: fixed;
   top: 0;
@@ -23,8 +25,8 @@ app-root {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-  z-index: 1000; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .logo {

@@ -1,0 +1,165 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  background: linear-gradient(180deg, #ffffff, #f8f8f8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  z-index: 1000;
+  font-family: 'League Spartan', sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.15),
+    -3px -3px 6px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #ececec);
+  padding: 5px;
+}
+
+.app-name {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  transition: color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.app-name:hover {
+  color: #900000;
+  transform: translateY(-2px);
+}
+
+.usuario {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #222;
+  margin-right: 3%;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.1),
+    -3px -3px 6px rgba(255, 255, 255, 0.8);
+}
+main.form-container {
+  height: 92vh; /* resto del alto (100% - navbar) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #58a2f7 0%, #ffffff 100%);
+  font-family: 'League Spartan', sans-serif;
+  overflow: hidden; /* evita scroll */
+  padding: 0 20px;
+}
+
+/* ==== TARJETA ==== */
+.user-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 35px 30px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0a2d4d;
+  margin-bottom: 25px;
+}
+
+/* ==== FORM ==== */
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group label {
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fdfdfd;
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #58a2f7;
+  box-shadow: 0 0 8px rgba(88, 162, 247, 0.3);
+  outline: none;
+}
+
+/* ==== BOTÓN ==== */
+.submit-btn {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(145deg, #58a2f7, #2d7de0);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.15);
+}
+
+.submit-btn:hover {
+  background: linear-gradient(145deg, #2d7de0, #58a2f7);
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .user-card {
+    padding: 25px 20px;
+  }
+  .form-title {
+    font-size: 1.8rem;
+  }
+}

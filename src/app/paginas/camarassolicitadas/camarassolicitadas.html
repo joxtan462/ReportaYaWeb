@@ -18,7 +18,7 @@
       <input type="text" placeholder="Buscar por RUT" [(ngModel)]="filtroRut" class="filtro-input">
       <input type="text" placeholder="Buscar por calle" [(ngModel)]="filtroCalle" class="filtro-input">
       <input type="text" placeholder="Buscar por motivo" [(ngModel)]="filtroMotivo" class="filtro-input">
-      <input type="text" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
+      <input type="date" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
     </div>
 
     <table class="tabla-alertas">
@@ -44,6 +44,7 @@
           <td>{{ camara.fecha }}</td>
         </tr>
       </tbody>
+
     </table>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilterAlertasPipe } from './filter-alertas.pipe';
 import { RouterModule, Router } from '@angular/router';
-import { Firestore, collection, collectionData, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, updateDoc, query, orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,14 +16,18 @@ import { Observable } from 'rxjs';
 export class AlertasVecinales {
   alertas$!: Observable<any[]>;
 
-  filtroNombre = '';
+  filtroCorreo = '';
   filtroDescripcion = '';
   filtroUbicacion = '';
   filtroFecha = '';
 
   constructor(private firestore: Firestore, private router: Router) {
+    // 🔹 Creamos la referencia a la colección con orden por fecha ascendente
     const alertasRef = collection(this.firestore, 'reportes');
-    this.alertas$ = collectionData(alertasRef, { idField: 'id' });
+    const alertasQuery = query(alertasRef, orderBy('fecha', 'asc')); // más viejos primero
+
+    // 🔹 Traemos los datos ordenados
+    this.alertas$ = collectionData(alertasQuery, { idField: 'id' });
   }
 
   async cambiarPrioridad(alerta: any, nuevaPrioridad: string) {

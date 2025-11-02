@@ -1,5 +1,5 @@
 /* ==========================
-   Navbar
+   Navbar (igual al que me pasaste)
    ========================== */
 .navbar {
   position: fixed;
@@ -7,39 +7,35 @@
   left: 0;
   width: 100%;
   height: 8%;
-  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  background: linear-gradient(180deg, #ffffff, #f8f8f8);
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 2%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  font-family: 'League Spartan', sans-serif;
+  padding: 0 25px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   z-index: 1000;
+  font-family: 'League Spartan', sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-.navbar-right {
-  margin-right: 4%;
-}
-.navbar-left, .navbar-right {
+
+.navbar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .logo {
   width: 60px;
   height: 60px;
   object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 3px 3px 6px rgba(0,0,0,0.15),
-              -3px -3px 6px rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.15),
+    -3px -3px 6px rgba(255, 255, 255, 0.9);
   background: linear-gradient(145deg, #ffffff, #ececec);
   padding: 5px;
-  transition: transform 0.2s;
-}
-
-.logo:hover {
-  transform: translateY(-2px) scale(1.05);
 }
 
 .app-name {
@@ -47,6 +43,7 @@
   font-weight: bold;
   color: #000;
   text-decoration: none;
+  letter-spacing: 0.5px;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
   transition: color 0.3s, transform 0.2s;
   cursor: pointer;
@@ -57,91 +54,113 @@
   transform: translateY(-2px);
 }
 
-.user-display {
-  font-size: 1.2rem;
+.usuario {
+  font-size: 1.1rem;
   font-weight: bold;
   color: #222;
-  padding: 6px 12px;
-  border-radius: 8px;
+  margin-right: 3%;
   background: linear-gradient(145deg, #ffffff, #f3f3f3);
-  box-shadow: 3px 3px 6px rgba(0,0,0,0.1),
-              -3px -3px 6px rgba(255,255,255,0.8);
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.1),
+    -3px -3px 6px rgba(255, 255, 255, 0.8);
 }
 
 /* ==========================
-   Menu buttons
+   Panel de botones Administrador
    ========================== */
-.menu-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12%;
-  width: 90%;
-  max-width: 600px;
-  margin: 15% auto 0 auto;
-  text-align: center;
-}
-
-.menu-btn {
-  padding: 25%;
-  font-size: 1.6rem;
-  font-weight: bold;
-  background: linear-gradient(145deg, #ffffff, #f0f0f0);
-  color: #000;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  box-shadow: 6px 6px 15px rgba(0,0,0,0.15),
-              -4px -4px 10px rgba(255, 255, 255, 0.8);
-  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-}
-
-.menu-btn:hover {
-  background: #e23232;
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 8px 8px 18px rgba(0,0,0,0.25),
-              -5px -5px 12px rgba(255,255,255,0.9);
-}
-
-/* ==========================
-   Logout button
-   ========================== */
-.logout-container {
-  position: fixed;
-  bottom: 10%;        
-  width: 100%;         
+.menu-admin {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* centra verticalmente */
+  min-height: calc(100vh - 8%); /* altura de la ventana menos navbar */
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
 }
 
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 30px 50px;
+  justify-items: center;
+  align-items: center;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.menu-card {
+  width: 100%;
+  max-width: 260px;
+  height: 130px;
+  background: linear-gradient(145deg, #ffffff, #f2f2f2);
+  border: none;
+  border-radius: 18px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  box-shadow: 6px 6px 15px rgba(0,0,0,0.15), -4px -4px 10px rgba(255,255,255,0.8);
+  transition: all 0.25s ease-in-out;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(145deg, #58a2f7, #2d7de0);
+  color: #fff;
+  box-shadow: 8px 8px 20px rgba(0,0,0,0.25), -5px -5px 12px rgba(255,255,255,0.9);
+}
+
+/* Vacíos para mantener la estructura 3x3 */
+.menu-card.empty {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Botón Cerrar Sesión */
 .logout-btn {
-  padding: 2% 4%;
+  padding: 15px 45px;
   background: linear-gradient(145deg, #ffffff, #f0f0f0);
-  color: #000;
+  color: #111;
   border: none;
   border-radius: 12px;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.3rem;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.15),
-              -3px -3px 8px rgba(255,255,255,0.8);
-  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 5px 5px 14px rgba(0,0,0,0.15), -3px -3px 10px rgba(255,255,255,0.8);
+  transition: all 0.3s ease;
 }
 
 .logout-btn:hover {
-  background: #900000;
+  background: #e23232;
   color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 6px 6px 16px rgba(102, 100, 100, 0.25),
-              -4px -4px 10px rgba(255,255,255,0.9);
+  transform: translateY(-3px);
 }
 
-/* ==========================
-   Responsive
-   ========================== */
-@media (max-width: 768px) {
-  .app-name { font-size: 2rem; }
-  .logo { width: 50px; height: 50px; }
-  .menu-container { grid-template-columns: 1fr; gap: 15%; margin-top: 25%; }
-  .menu-btn { padding: 20%; font-size: 1.4rem; }
+/* Responsive */
+@media (max-width: 1024px) {
+  .menu-grid { gap: 25px 40px; }
+  .menu-card { max-width: 220px; height: 120px; }
 }
+
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 20px 30px;
+  }
+  .menu-card { max-width: 280px; height: 120px; }
+  .logout-btn { width: 80%; font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .menu-grid { grid-template-columns: 1fr; gap: 15px; }
+  .menu-card { max-width: 100%; height: 110px; }
+}
+
+

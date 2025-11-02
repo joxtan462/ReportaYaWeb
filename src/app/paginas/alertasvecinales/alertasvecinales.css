@@ -232,3 +232,12 @@
   .filtros { flex-direction: column; gap: 8px; }
   .filtro-input { flex: 1 1 100%; }
 }
+.filtro-fecha {
+  cursor: pointer;
+  color: #333;
+}
+
+.filtro-fecha::-webkit-calendar-picker-indicator {
+  filter: invert(30%) sepia(80%) saturate(1000%) hue-rotate(340deg);
+  cursor: pointer;
+}

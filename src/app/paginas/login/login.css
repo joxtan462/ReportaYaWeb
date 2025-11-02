@@ -10,7 +10,6 @@ body.Centro {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #ab0000, #7a0000);
   font-family: 'League Spartan', sans-serif;
 }
 

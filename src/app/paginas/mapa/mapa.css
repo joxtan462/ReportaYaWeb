@@ -1,0 +1,121 @@
+@import "leaflet/dist/leaflet.css";
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  background: linear-gradient(180deg, #ffffff, #f8f8f8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  z-index: 1000;
+  font-family: 'League Spartan', sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.15),
+    -3px -3px 6px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #ececec);
+  padding: 5px;
+}
+
+.app-name {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  transition: color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.app-name:hover {
+  color: #900000;
+  transform: translateY(-2px);
+}
+
+.usuario {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #222;
+  margin-right: 3%;
+  background: linear-gradient(145deg, #ffffff, #f3f3f3);
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.1),
+    -3px -3px 6px rgba(255, 255, 255, 0.8);
+}
+
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'League Spartan', sans-serif;
+}
+
+/* 🔹 Contenedor general del mapa debajo del navbar */
+.mapa-wrapper {
+  position: absolute;
+  top: 70px; /* altura del navbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+/* 🔹 Estilo del mapa */
+#map {
+  width: 100%;
+  height: calc(100vh - 60px);
+  margin-top: 60px; /* separa el mapa del navbar */
+  z-index: 1;
+  border-radius: 10px;
+}
+
+/* 🔹 Botón flotante de centrado */
+.btn-geo {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-geo:hover {
+  background: #b71c1c;
+}
