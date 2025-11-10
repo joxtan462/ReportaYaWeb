@@ -146,6 +146,46 @@
         />
       </div>
     </section>
+
+    <!-- 🚀 Nueva sección: Asignar a Inspector -->
+        <section class="card inspector-card">
+      <h2>Asignar a Inspector</h2>
+
+      <div *ngIf="inspectores$ | async as inspectores; else sinInspectores">
+        <div
+          *ngFor="let inspector of inspectores"
+          class="inspector-item"
+          [class.ocupado]="inspector.alertaAsignada"
+        >
+          <div class="inspector-info">
+            <div class="inspector-name">
+              <strong>{{ inspector.nombre }}</strong>
+            </div>
+            <div
+              class="inspector-status"
+              [ngClass]="
+                inspector.alertaAsignada ? 'ocupado-text' : 'disponible-text'
+              "
+            >
+              ● {{ inspector.alertaAsignada ? 'Ocupado' : 'Disponible' }}
+            </div>
+          </div>
+
+          <button
+            class="btn-asignar"
+            [disabled]="inspector.alertaAsignada"
+            (click)="asignarReporte(inspector.uid)"
+          >
+            {{ inspector.alertaAsignada ? 'No disponible' : 'Asignar reporte' }}
+          </button>
+        </div>
+      </div>
+
+      <ng-template #sinInspectores>
+        <p>No hay inspectores registrados.</p>
+      </ng-template>
+    </section>
+
   </div>
 </div>
 

@@ -1,10 +1,33 @@
 @import "leaflet/dist/leaflet.css";
+
+/* 🔹 Estructura base */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'League Spartan', sans-serif;
+  background: #f4f4f4;
+}
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+router-outlet {
+  display: block;
+  height: 100%;
+}
+
+/* 🔹 Navbar */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 8%;
+  right: 0;
+  height: 70px;
   background: linear-gradient(180deg, #ffffff, #f8f8f8);
   display: flex;
   align-items: center;
@@ -14,7 +37,6 @@
     0 4px 10px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   z-index: 1000;
-  font-family: 'League Spartan', sans-serif;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -29,77 +51,85 @@
   height: 60px;
   object-fit: contain;
   border-radius: 10px;
-  box-shadow:
-    3px 3px 6px rgba(0, 0, 0, 0.15),
-    -3px -3px 6px rgba(255, 255, 255, 0.9);
   background: linear-gradient(145deg, #ffffff, #ececec);
   padding: 5px;
 }
 
 .app-name {
-  font-size: 2.8rem;
-  font-weight: bold;
-  color: #000;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
   text-decoration: none;
   letter-spacing: 0.5px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
   transition: color 0.3s, transform 0.2s;
   cursor: pointer;
 }
 
 .app-name:hover {
-  color: #900000;
+  color: #b71c1c;
   transform: translateY(-2px);
 }
 
 .usuario {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #222;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
   margin-right: 3%;
   background: linear-gradient(145deg, #ffffff, #f3f3f3);
   padding: 8px 14px;
   border-radius: 8px;
   box-shadow:
-    3px 3px 6px rgba(0, 0, 0, 0.1),
-    -3px -3px 6px rgba(255, 255, 255, 0.8);
+    2px 2px 5px rgba(0, 0, 0, 0.1),
+    -2px -2px 5px rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
 }
 
-
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  font-family: 'League Spartan', sans-serif;
-}
-
-/* 🔹 Contenedor general del mapa debajo del navbar */
+/* 🔹 Contenedor general del mapa */
 .mapa-wrapper {
   position: absolute;
-  top: 70px; /* altura del navbar */
+  top: 70px; /* debajo del navbar */
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
 }
 
-/* 🔹 Estilo del mapa */
+/* 🔹 Mapa de Leaflet */
 #map {
   width: 100%;
-  height: calc(100vh - 60px);
-  margin-top: 60px; /* separa el mapa del navbar */
+  height: calc(100vh - 70px);
+  margin: 0;
+  padding: 0;
   z-index: 1;
-  border-radius: 10px;
+  border-radius: 0;
 }
 
-/* 🔹 Botón flotante de centrado */
+/* 🔹 Ajustes responsivos */
+@media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+    padding: 0 15px;
+  }
+
+  .app-name {
+    font-size: 1.8rem;
+  }
+
+  .usuario {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+
+  #map {
+    height: calc(100vh - 60px);
+  }
+}
+
+/* 🔹 Botón flotante de geolocalización */
 .btn-geo {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
   z-index: 2000;
   background: #d32f2f;
   color: #fff;
@@ -111,11 +141,24 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+  transition: all 0.2s ease;
 }
 
 .btn-geo:hover {
   background: #b71c1c;
+  transform: scale(1.05);
+}
+
+/* 🔹 Ajustes para los controles de Leaflet */
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 500 !important; /* evita que los botones queden debajo del navbar o del botón flotante */
+}
+
+/* 🔹 Corrección visual de popups */
+.leaflet-popup-content {
+  font-size: 14px;
+  font-weight: 500;
 }

@@ -1,0 +1,67 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <a class="app-name" routerLink="/menu">ReportaYa</a>
+  </div>
+  <div class="usuario">Usuario: #######</div>
+</header>
+
+<div *ngIf="multa; else cargando" class="detalle-container">
+  <h1 class="titulo-detalle">Detalle del Parte</h1>
+
+  <div class="detalle-content">
+    <!-- Información General -->
+    <section class="card info-card">
+      <h2>Información General</h2>
+
+      <div class="info-grid">
+        <p><strong>ID:</strong> {{ multa.id }}</p>
+        <p><strong>Fecha:</strong> {{ multa.fechaFormateada || multa.fecha }}</p>
+        <p><strong>Patente:</strong> {{ multa.patente || 'No especificada' }}</p>
+        <p><strong>Marca:</strong> {{ multa.marca || 'No especificada' }}</p>
+        <p><strong>Color:</strong> {{ multa.color || 'No especificado' }}</p>
+        <p><strong>Tipo:</strong> {{ multa.tipo || 'N/A' }}</p>
+        <p><strong>Estado:</strong> {{ multa.estado || 'Sin estado' }}</p>
+        <p><strong>Ubicación:</strong> {{ multa.ubicacion || 'Sin ubicación' }}</p>
+        <p><strong>Coordenadas:</strong> {{ multa.coordenadas?.lat }}, {{ multa.coordenadas?.lng }}</p>
+        <p><strong>Infracción:</strong> {{ multa.infraccion || 'Sin infracción' }}</p>
+
+        <!-- 🔹 Creador -->
+        <p><strong>Creador:</strong> {{ usuarioNombre || 'Desconocido' }}</p>
+
+        <p class="descripcion">
+          <strong>Comentarios:</strong><br />
+          {{ multa.comentarios || 'Sin comentarios' }}
+        </p>
+      </div>
+
+      <div class="acciones">
+        <button routerLink="/multas" class="btn btn-volver">← Volver</button>
+        <button class="btn btn-eliminar" (click)="eliminarMulta(multa.id)">🗑️ Eliminar</button>
+      </div>
+    </section>
+
+    <!-- Galería -->
+    <section class="card media-card" *ngIf="multa.fotos?.length">
+      <h2>Registro Visual</h2>
+
+      <div class="galeria">
+        <div class="thumb" *ngFor="let img of multa.fotos; let i = index">
+          <a [href]="img" target="_blank" rel="noopener noreferrer">
+            <img
+              [src]="img"
+              [alt]="'Foto ' + (i + 1)"
+              class="imagen-alerta"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<ng-template #cargando>
+  <div class="loading">
+    <p>⏳ Cargando parte...</p>
+  </div>
+</ng-template>

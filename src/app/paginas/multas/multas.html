@@ -1,9 +1,8 @@
 <div class="container">
-
-  <!-- Navbar -->
+  <!-- Navbar (no tocar) -->
   <header class="navbar">
     <div class="navbar-left">
-      <img src="assets/logo.png" alt="Logo" class="logo">
+      <img src="assets/logo.png" alt="Logo" class="logo" />
       <a class="app-name" routerLink="/menu">ReportaYa</a>
     </div>
     <div class="usuario">Usuario: #######</div>
@@ -11,15 +10,15 @@
 
   <!-- Contenido principal -->
   <div class="tabla-container">
-    <h1 class="titulo-alertas">Lista de Multas</h1>
+    <h1 class="titulo-alertas">Lista de Partes</h1>
 
     <!-- Filtros -->
     <div class="filtros">
-      <input type="text" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
-      <input type="text" placeholder="Buscar por infracción" [(ngModel)]="filtroInfraccion" class="filtro-input">
-      <input type="text" placeholder="Buscar por comentarios" [(ngModel)]="filtroComentarios" class="filtro-input">
-      <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input">
-      <input type="text" placeholder="Buscar por patente" [(ngModel)]="filtroPatente" class="filtro-input">
+      <input type="date" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input" />
+      <input type="text" placeholder="Buscar por infracción" [(ngModel)]="filtroInfraccion" class="filtro-input" />
+      <input type="text" placeholder="Buscar por comentarios" [(ngModel)]="filtroComentarios" class="filtro-input" />
+      <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input" />
+      <input type="text" placeholder="Buscar por patente" [(ngModel)]="filtroPatente" class="filtro-input" />
     </div>
 
     <!-- Tabla de multas -->
@@ -36,17 +35,39 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let multa of multas | filterMultas:filtroFecha:filtroInfraccion:filtroComentarios:filtroUbicacion:filtroPatente">
-          <td>{{ multa.id }}</td>
-          <td>{{ multa.fecha }}</td>
-          <td>{{ multa.infraccion }}</td>
-          <td>{{ multa.comentarios }}</td>
-          <td>{{ multa.ubicacion }}</td>
-          <td>{{ multa.patente }}</td>
-          <td><button class="btn-lupa">🔍</button></td>
+        <tr
+          *ngFor="let parte of ((partes$ | async) || [])
+                     | filterMultas:filtroFecha:filtroInfraccion:filtroComentarios:filtroUbicacion:filtroPatente"
+        >
+          <td>{{ parte.id }}</td>
+
+          <!-- ✅ Fecha: se adapta a Timestamp o string -->
+          <td>
+            <ng-container *ngIf="parte.fecha">
+              <!-- Si es Timestamp -->
+              <span *ngIf="parte.fecha.toDate; else fechaTexto">
+                {{ parte.fecha.toDate() | date:'d \'de\' MMMM \'de\' y, h:mm:ss a zzzz':'UTC-3' }}
+              </span>
+              <!-- Si ya es string -->
+              <ng-template #fechaTexto>
+                {{ parte.fecha }}
+              </ng-template>
+            </ng-container>
+
+            <!-- Si no existe la propiedad fecha -->
+            <ng-container *ngIf="!parte.fecha">-</ng-container>
+          </td>
+
+          <td>{{ parte.infraccion }}</td>
+          <td>{{ parte.comentarios }}</td>
+          <td>{{ parte.ubicacion }}</td>
+          <td>{{ parte.patente }}</td>
+
+          <td>
+            <button class="btn-lupa" (click)="irADetalle(parte)">🔍 Ver detalle</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-
 </div>

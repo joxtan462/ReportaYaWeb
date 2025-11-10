@@ -17,6 +17,7 @@ export class Mapa implements AfterViewInit {
   private map!: any;
   alertas$: Observable<any[]> | undefined;
   private isBrowser: boolean;
+  private userMarker: any = null;
 
   constructor(
     private firestore: Firestore,
@@ -26,70 +27,68 @@ export class Mapa implements AfterViewInit {
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
-    // ✅ Solo ejecuta Leaflet en el navegador
+    // 🔹 Cargar datos de Firebase dentro del contexto Angular
     if (this.isBrowser) {
-      import('leaflet').then((leaflet) => {
-        L = leaflet;
-
-        // 🔹 Fijar rutas correctas para íconos por defecto de Leaflet
-        L.Icon.Default.mergeOptions({
-          iconRetinaUrl: 'src\assets\leaflet\marker-icon-2x.png',
-          iconUrl: 'src\assets\leaflet\marker-icon.png',
-          shadowUrl: 'src\assets\leaflet\marker-shadow.png'
-        });
-
-        // ✅ Esperar a que Angular termine de renderizar
-        this.zone.runOutsideAngular(() => {
-          setTimeout(() => this.inicializarMapa(), 500);
-        });
-      });
-
       const reportesRef = collection(this.firestore, 'reportes');
       this.alertas$ = collectionData(reportesRef, { idField: 'id' });
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser) {
-      setTimeout(() => {
-        this.map?.invalidateSize();
-      }, 1000);
-    }
-  }
+  async ngAfterViewInit(): Promise<void> {
+    if (!this.isBrowser) return;
 
-  inicializarMapa() {
-    if (!this.isBrowser || !L) return;
+    const leaflet = await import('leaflet');
+    L = leaflet;
 
-    const mapContainer = document.getElementById('map');
-    if (!mapContainer) return;
-
-    // 🔹 Si el mapa ya existe, lo removemos para reinicializar
-    if (this.map) this.map.remove();
-
-    this.map = L.map(mapContainer, {
-      center: [-33.45, -70.6667],
-      zoom: 13,
-      zoomControl: true
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
+      iconUrl: 'assets/leaflet/marker-icon.png',
+      shadowUrl: 'assets/leaflet/marker-shadow.png'
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(this.map);
+    await this.inicializarMapa();
 
-    // 🔹 Asegurar tamaño correcto del mapa
-    setTimeout(() => this.map.invalidateSize(), 1500);
-
-    // 🔹 Cargar marcadores desde Firebase
+    // 🔹 Cargar alertas
     this.alertas$?.subscribe((alertas) => {
-      alertas.forEach((alerta) => {
-        if (alerta.coordenadas?.lat && alerta.coordenadas?.lng) {
-          this.agregarMarcador(alerta);
-        }
+      if (!this.map) return;
+      this.zone.runOutsideAngular(() => {
+        alertas.forEach((alerta) => {
+          if (alerta.coordenadas?.lat && alerta.coordenadas?.lng) {
+            this.agregarMarcador(alerta);
+          }
+        });
+      });
+    });
+  }
+
+  inicializarMapa(): Promise<void> {
+    return new Promise((resolve) => {
+      const mapContainer = document.getElementById('map');
+      if (!mapContainer) return resolve();
+
+      if (this.map) this.map.remove();
+
+      this.map = L.map(mapContainer, {
+        center: [-33.45, -70.6667],
+        zoom: 13,
+        zoomControl: true
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
+
+      this.map.whenReady(() => {
+        setTimeout(() => this.map.invalidateSize(), 300);
+        resolve();
       });
     });
   }
 
   agregarMarcador(alerta: any) {
+    if (!this.map) return;
+
     const icono = L.icon({
       iconUrl: 'assets/pin.png',
       iconSize: [40, 40],
@@ -97,51 +96,54 @@ export class Mapa implements AfterViewInit {
       popupAnchor: [0, -40]
     });
 
-    const marker = L.marker(
-      [alerta.coordenadas.lat, alerta.coordenadas.lng],
-      { icon: icono }
-    ).addTo(this.map);
+    const marker = L.marker([alerta.coordenadas.lat, alerta.coordenadas.lng], {
+      icon: icono
+    }).addTo(this.map);
+
+    const estado =
+      alerta.estado?.pendiente
+        ? 'Pendiente'
+        : alerta.estado?.enProceso
+        ? 'En proceso'
+        : 'Resuelto';
 
     marker.bindPopup(`
       <b>${alerta.categoria || 'Sin categoría'}</b><br>
       ${alerta.subcategoria || ''}<br>
-      Estado: ${
-        alerta.estado?.pendiente
-          ? 'Pendiente'
-          : alerta.estado?.enProceso
-          ? 'En proceso'
-          : 'Resuelto'
-      }
+      Estado: ${estado}
     `);
 
     marker.on('click', () => this.router.navigate(['/alertadetalle', alerta.id]));
   }
 
-  // 📍 Centrar en la ubicación del usuario
+  // 🧭 NUEVO: Centrar mapa en ubicación del usuario
   centrarEnUsuario() {
-    if (!navigator.geolocation) {
-      alert('Tu navegador no soporta geolocalización');
-      return;
-    }
+    if (!this.map || !navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { latitude, longitude, accuracy } = pos.coords;
-        this.map.setView([latitude, longitude], 15);
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
 
-        const marker = L.marker([latitude, longitude]).addTo(this.map);
-        marker.bindPopup('📍 Estás aquí').openPopup();
+        this.map.setView([lat, lng], 15, { animate: true });
 
-        L.circle([latitude, longitude], {
-          radius: accuracy,
-          color: 'blue',
-          fillColor: '#3f51b5',
-          fillOpacity: 0.3
-        }).addTo(this.map);
+        // Si ya existe el marcador del usuario, solo moverlo
+        if (this.userMarker) {
+          this.userMarker.setLatLng([lat, lng]);
+        } else {
+          const iconoUsuario = L.icon({
+            iconUrl: 'assets/usuario.png', // puedes cambiar el ícono
+            iconSize: [45, 45],
+            iconAnchor: [22, 45]
+          });
+          this.userMarker = L.marker([lat, lng], { icon: iconoUsuario })
+            .addTo(this.map)
+            .bindPopup('Tu ubicación');
+        }
       },
-      (err) => {
-        console.error('Error obteniendo ubicación', err);
-        alert('No se pudo obtener tu ubicación');
+      (error) => {
+        console.error('Error al obtener ubicación:', error);
+        alert('No se pudo acceder a tu ubicación.');
       }
     );
   }
