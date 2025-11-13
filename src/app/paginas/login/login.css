@@ -1,94 +1,104 @@
-
-
 /* ==========================
-   Body / Centro
+   Fondo y estructura general
    ========================== */
-body.Centro {
+html, body {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  font-family: 'League Spartan', sans-serif;
+  background: linear-gradient(135deg, #58a2f7 0%, #ffffff 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'League Spartan', sans-serif;
+}
+
+/* Asegura centrado incluso dentro del componente Angular */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
 }
 
 /* ==========================
-   Login Container
+   Contenedor principal
    ========================== */
 .login-container {
-  background: linear-gradient(145deg, #ffffff, #f3f3f3);
-  padding: 3%;
-  border-radius: 16px;
-  box-shadow: 8px 8px 20px rgba(0,0,0,0.2),
-              -6px -6px 18px rgba(255,255,255,0.8);
-  width: 25%;
+  background: linear-gradient(145deg, #ffffff, #f7f7f7);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  width: 95%;
+  max-width: 480px;
   text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.8s ease;
 }
 
 .login-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 12px 12px 25px rgba(0,0,0,0.25),
-              -8px -8px 20px rgba(255,255,255,0.9);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 /* ==========================
-   Title
+   Título
    ========================== */
 .Titulo {
-  font-size: 2rem;
-  margin-bottom: 10%;
-  color: #333;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  font-size: 2.3rem;
+  margin-bottom: 2rem;
+  color: #222;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 /* ==========================
-   Labels and Inputs
+   Etiquetas e inputs
    ========================== */
 label {
   display: block;
-  margin-top: 4%;
+  margin-top: 1rem;
   text-align: left;
   font-weight: bold;
   color: #444;
+  font-size: 1rem;
 }
 
 input {
   width: 100%;
-  padding: 3%;
-  margin-top: 2%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 100%;
-  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05),
-              inset -2px -2px 6px rgba(255,255,255,0.7);
+  padding: 0.9rem;
+  margin-top: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.08),
+              inset -2px -2px 6px rgba(255, 255, 255, 0.8);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus {
   border-color: #ab0000;
-  box-shadow: 0 0 8px rgba(171,0,0,0.15),
-              inset 2px 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 0 8px rgba(171, 0, 0, 0.25),
+              inset 2px 2px 6px rgba(0, 0, 0, 0.1);
   outline: none;
 }
 
 /* ==========================
-   Buttons
+   Botón principal
    ========================== */
 button {
   width: 100%;
-  padding: 4%;
-  margin-top: 6%;
+  padding: 1rem;
+  margin-top: 2rem;
   background: linear-gradient(145deg, #ab0000, #900000);
   color: white;
   border: none;
   border-radius: 12px;
   font-weight: bold;
-  font-size: 120%;
+  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.2),
-              -3px -3px 8px rgba(255,255,255,0.7);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2),
+              -3px -3px 8px rgba(255, 255, 255, 0.7);
   transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
@@ -96,6 +106,52 @@ button:hover {
   background: #000;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 6px 6px 16px rgba(0,0,0,0.25),
-              -4px -4px 10px rgba(255,255,255,0.8);
+  box-shadow: 6px 6px 18px rgba(0, 0, 0, 0.3),
+              -4px -4px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================
+   Mensaje de error
+   ========================== */
+.error {
+  color: #d10000;
+  margin-top: 1.5rem;
+  font-weight: bold;
+  background: rgba(255, 0, 0, 0.05);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+/* ==========================
+   Animación de entrada
+   ========================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   Responsive
+   ========================== */
+@media (max-width: 600px) {
+  .login-container {
+    width: 90%;
+    padding: 2rem;
+    max-width: 360px;
+  }
+
+  .Titulo {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1.1rem;
+  }
 }

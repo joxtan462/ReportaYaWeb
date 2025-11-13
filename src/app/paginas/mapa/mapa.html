@@ -3,7 +3,10 @@
     <img src="assets/logo.png" alt="Logo" class="logo" />
     <a class="app-name" routerLink="/menu">ReportaYa</a>
   </div>
-  <div class="usuario">Usuario: #######</div>
+
+  <div class="usuario" *ngIf="usuario">
+    Usuario: {{ usuario.nombre }}
+  </div>
 </header>
 
 <div class="mapa-wrapper">

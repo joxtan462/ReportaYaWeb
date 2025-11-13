@@ -1,19 +1,23 @@
-<header class="navbar">
+<header class="navbar" *ngIf="!cargando">
   <div class="navbar-left">
     <img src="assets/logo.png" alt="Logo" class="logo">
     <a class="app-name" routerLink="/menu">ReportaYa</a>
   </div>
-  <div class="usuario">Usuario: #######</div>
+  <div class="usuario">Usuario: {{ usuarioNombre }}</div>
 </header>
 
-<main class="menu-admin">
+<main class="menu-admin" *ngIf="!cargando">
   <div class="menu-grid">
-    <button [routerLink]="'/alertasvecinales'" class="menu-card">Alertas Vecinales</button>
-    <button [routerLink]="'/camarassolicitadas'" class="menu-card">Petición de Cámaras</button>
-    <button [routerLink]="'/mapa'" class="menu-card">Mapa</button>
-    <button [routerLink]="'/multas'" class="menu-card">Multas / Partes</button>
-    <button [routerLink]="'/crearusuario'" class="menu-card">Crear Usuarios</button>
+    <button *ngIf="puedeVer('alertas')" [routerLink]="'/alertasvecinales'" class="menu-card">Alertas Vecinales</button>
+    <button *ngIf="puedeVer('peticiones')" [routerLink]="'/camarassolicitadas'" class="menu-card">Petición de Cámaras</button>
+    <button *ngIf="puedeVer('mapa')" [routerLink]="'/mapa'" class="menu-card">Mapa</button>
+    <button *ngIf="puedeVer('multas')" [routerLink]="'/multas'" class="menu-card">Multas / Partes</button>
+    <button *ngIf="usuarioRango === 'admin'" [routerLink]="'/crearusuario'" class="menu-card">Crear Usuarios</button>
   </div>
 
-  <button class="logout-btn" [routerLink]="'/'">Cerrar Sesión</button>
+  <button class="logout-btn" (click)="cerrarSesion()">Cerrar Sesión</button>
 </main>
+
+<div *ngIf="cargando" class="loading">
+  Cargando datos del usuario...
+</div>

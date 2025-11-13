@@ -3,23 +3,23 @@
     <img src="assets/logo.png" alt="Logo" class="logo">
     <a class="app-name" routerLink="/menu">ReportaYa</a>
   </div>
-  <div class="usuario">Usuario: #######</div>
+  <div class="usuario">
+    Usuario: {{ usuario?.nombre || 'Desconocido' }}
+  </div>
 </header>
 
 <div class="tabla-container">
   <h1 class="titulo-alertas">Lista de Alertas Vecinales</h1>
 
-  <!-- 🔹 Filtros con calendario -->
+  <!-- 🔹 Filtros -->
   <div class="filtros">
     <input type="text" placeholder="Buscar por correo" [(ngModel)]="filtroCorreo" class="filtro-input">
     <input type="text" placeholder="Buscar por descripción" [(ngModel)]="filtroDescripcion" class="filtro-input">
     <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input">
-    
-    <!-- 🔽 Aquí cambiamos a un selector de fecha -->
     <input type="date" [(ngModel)]="filtroFecha" class="filtro-input filtro-fecha">
   </div>
 
-  <!-- Tabla de alertas -->
+  <!-- 🔹 Tabla -->
   <table class="tabla-alertas">
     <thead>
       <tr>
@@ -42,7 +42,8 @@
         <td>
           <select [(ngModel)]="alerta.prioridad"
                   (change)="cambiarPrioridad(alerta, alerta.prioridad)"
-                  class="select-prioridad">
+                  class="select-prioridad"
+                  [disabled]="usuario?.rango !== 'admin'">
             <option value="Alta">Alta</option>
             <option value="Media">Media</option>
             <option value="Baja">Baja</option>

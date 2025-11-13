@@ -3,8 +3,9 @@
     <img src="assets/logo.png" alt="Logo" class="logo" />
     <a class="app-name" routerLink="/menu">ReportaYa</a>
   </div>
-  <div class="usuario">Usuario: #######</div>
+  <div class="usuario">Usuario: {{ usuarioActual?.nombre || 'Cargando...' }}</div>
 </header>
+
 
 <div *ngIf="multa; else cargando" class="detalle-container">
   <h1 class="titulo-detalle">Detalle del Parte</h1>

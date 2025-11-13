@@ -3,10 +3,9 @@
     <img src="assets/logo.png" alt="Logo" class="logo" />
     <a class="app-name" routerLink="/menu">ReportaYa</a>
   </div>
-  <div class="usuario">Usuario: #######</div>
+  <div class="usuario">Usuario: {{ usuario?.nombre }}</div>
 </header>
 
-<!-- ✅ Protegemos todo el contenido con *ngIf -->
 <div *ngIf="alerta; else cargando" class="detalle-container">
   <h1 class="titulo-detalle">Detalle de Alerta</h1>
 
@@ -17,51 +16,28 @@
 
       <div class="info-grid">
         <p><strong>ID:</strong> {{ alerta.id }}</p>
-
-        <p>
-          <strong>Fecha:</strong>
-          {{ alerta.fecha | date: 'dd/MM/yyyy, h:mm a' }}
-        </p>
-
+        <p><strong>Fecha:</strong> {{ alerta.fecha | date: 'dd/MM/yyyy, h:mm a' }}</p>
         <p><strong>Ubicación:</strong> {{ alerta.ubicacion }}</p>
 
-        <!-- Categoría principal -->
         <p>
           <strong>Categoría:</strong>
-          <select
-            [(ngModel)]="alerta.categoria"
-            (change)="onCategoriaChange()"
-            class="select-categoria"
-          >
+          <select [(ngModel)]="alerta.categoria" (change)="onCategoriaChange()" class="select-categoria">
             <option value="" disabled selected>Seleccione una categoría</option>
-            <option *ngFor="let cat of categorias" [value]="cat.FAMILIA">
-              {{ cat.FAMILIA }}
-            </option>
+            <option *ngFor="let cat of categorias" [value]="cat.FAMILIA">{{ cat.FAMILIA }}</option>
           </select>
         </p>
 
-        <!-- Subcategoría dependiente -->
         <p *ngIf="subcategoriasFiltradas.length > 0">
           <strong>Subcategoría:</strong>
-          <select
-            [(ngModel)]="alerta.subcategoria"
-            (change)="onSubcategoriaChange()"
-            class="select-subcategoria"
-          >
+          <select [(ngModel)]="alerta.subcategoria" (change)="onSubcategoriaChange()" class="select-subcategoria">
             <option value="" disabled selected>Seleccione una subcategoría</option>
-            <option *ngFor="let sub of subcategoriasFiltradas" [value]="sub">
-              {{ sub }}
-            </option>
+            <option *ngFor="let sub of subcategoriasFiltradas" [value]="sub">{{ sub }}</option>
           </select>
         </p>
 
         <p>
           <strong>Prioridad:</strong>
-          <select
-            [(ngModel)]="alerta.prioridad"
-            (change)="onPrioridadChange()"
-            class="select-prioridad"
-          >
+          <select [(ngModel)]="alerta.prioridad" (change)="onPrioridadChange()" class="select-prioridad">
             <option value="Alta">Alta</option>
             <option value="Media">Media</option>
             <option value="Baja">Baja</option>
@@ -70,44 +46,33 @@
 
         <p>
           <strong>Visibilidad:</strong>
-          <select
-            [(ngModel)]="alerta.visibilidad"
-            (change)="onVisibilidadChange()"
-            class="select-visibilidad"
-          >
+          <select [(ngModel)]="alerta.visibilidad" (change)="onVisibilidadChange()" class="select-visibilidad">
             <option [ngValue]="true">Privado</option>
             <option [ngValue]="false">Público</option>
           </select>
         </p>
 
-        <!-- Estado -->
+        <!-- Estados -->
         <div class="estado-section">
           <strong>Estado:</strong>
           <div class="estado-checks">
             <label class="estado-item pendiente">
-              <input
-                type="checkbox"
-                [(ngModel)]="alerta.estado.pendiente"
-                (change)="actualizarEstado('pendiente', alerta.estado.pendiente)"
-              />
+              <input type="checkbox" [(ngModel)]="alerta.estado.pendiente" (change)="actualizarEstado('pendiente', alerta.estado.pendiente)" />
               Pendiente
             </label>
 
             <label class="estado-item enProceso">
-              <input
-                type="checkbox"
-                [(ngModel)]="alerta.estado.enProceso"
-                (change)="actualizarEstado('enProceso', alerta.estado.enProceso)"
-              />
+              <input type="checkbox" [(ngModel)]="alerta.estado.enProceso" (change)="actualizarEstado('enProceso', alerta.estado.enProceso)" />
               En Proceso
             </label>
 
+            <label class="estado-item enTerreno">
+              <input type="checkbox" [(ngModel)]="alerta.estado['enTerreno']" (change)="actualizarEstado('enTerreno', alerta.estado['enTerreno'])" />
+              En Terreno
+            </label>
+
             <label class="estado-item resuelto">
-              <input
-                type="checkbox"
-                [(ngModel)]="alerta.estado.resuelto"
-                (change)="actualizarEstado('resuelto', alerta.estado.resuelto)"
-              />
+              <input type="checkbox" [(ngModel)]="alerta.estado.resuelto" (change)="actualizarEstado('resuelto', alerta.estado.resuelto)" />
               Resuelto
             </label>
           </div>
@@ -115,23 +80,21 @@
 
         <p class="descripcion">
           <strong>Descripción:</strong><br />
-          <textarea
-            [(ngModel)]="alerta.descripcion"
-            rows="4"
-            class="descripcion-textarea"
-            (ngModelChange)="onDescripcionChange()"
-          ></textarea>
+          <textarea [(ngModel)]="alerta.descripcion" rows="4" class="descripcion-textarea" (ngModelChange)="onDescripcionChange()"></textarea>
         </p>
       </div>
 
-      <!-- Botones de acción -->
+      <!-- 💬 Comentarios del inspector dentro de info-card -->
+      <div class="comentarios-card" *ngIf="alerta.comentariosInspector">
+        <h2>Comentarios del Inspector</h2>
+        <div class="comentario-box">
+          <p>{{ alerta.comentariosInspector }}</p>
+        </div>
+      </div>
+
       <div class="acciones">
-        <button routerLink="/alertasvecinales" class="btn btn-volver">
-          ← Volver
-        </button>
-        <button class="btn btn-eliminar" (click)="eliminarReporte(alerta.id)">
-          🗑️ Eliminar
-        </button>
+        <button routerLink="/alertasvecinales" class="btn btn-volver">← Volver</button>
+        <button class="btn btn-eliminar" (click)="eliminarReporte(alerta.id)">🗑️ Eliminar</button>
       </div>
     </section>
 
@@ -139,45 +102,40 @@
     <section class="card media-card">
       <h2>Registro Visual</h2>
       <div class="imagen-container">
-        <img
-          [src]="alerta.fotoURL || alerta.imagenVideo"
-          alt="Imagen/Video alerta"
-          class="imagen-alerta"
-        />
+        <img [src]="alerta.fotoURL || alerta.imagenVideo" alt="Imagen/Video alerta" class="imagen-alerta" />
       </div>
     </section>
 
-    <!-- 🚀 Nueva sección: Asignar a Inspector -->
-        <section class="card inspector-card">
+    <!-- Asignar a Inspector -->
+    <section class="card inspector-card">
       <h2>Asignar a Inspector</h2>
 
       <div *ngIf="inspectores$ | async as inspectores; else sinInspectores">
-        <div
-          *ngFor="let inspector of inspectores"
-          class="inspector-item"
-          [class.ocupado]="inspector.alertaAsignada"
-        >
+        <div *ngFor="let inspector of inspectores" class="inspector-item" [class.ocupado]="inspector.alertaAsignada">
           <div class="inspector-info">
-            <div class="inspector-name">
-              <strong>{{ inspector.nombre }}</strong>
-            </div>
-            <div
-              class="inspector-status"
-              [ngClass]="
-                inspector.alertaAsignada ? 'ocupado-text' : 'disponible-text'
-              "
-            >
+            <div class="inspector-name"><strong>{{ inspector.nombre }}</strong></div>
+            <div class="inspector-status" [ngClass]="inspector.alertaAsignada ? 'ocupado-text' : 'disponible-text'">
               ● {{ inspector.alertaAsignada ? 'Ocupado' : 'Disponible' }}
+            </div>
+
+            <div class="inspector-asignacion" *ngIf="inspector.alertaAsignada">
+              <small>📄 Reporte asignado:
+                <span [ngClass]="{'mismo-reporte': inspector.alertaAsignada === alerta.id, 'otro-reporte': inspector.alertaAsignada !== alerta.id}">
+                  {{ inspector.alertaAsignada }}
+                </span>
+              </small>
             </div>
           </div>
 
-          <button
-            class="btn-asignar"
-            [disabled]="inspector.alertaAsignada"
-            (click)="asignarReporte(inspector.uid)"
-          >
-            {{ inspector.alertaAsignada ? 'No disponible' : 'Asignar reporte' }}
-          </button>
+          <div class="botones-inspector">
+            <button class="btn-asignar" [disabled]="inspector.alertaAsignada && inspector.alertaAsignada !== alerta.id" (click)="asignarReporte(inspector.uid)">
+              {{ inspector.alertaAsignada === alerta.id ? 'Reasignado' : inspector.alertaAsignada ? 'No disponible' : 'Asignar reporte' }}
+            </button>
+
+            <button *ngIf="inspector.alertaAsignada === alerta.id" class="btn-liberar" (click)="liberarInspector(inspector.uid)">
+              🔓 Liberar inspector
+            </button>
+          </div>
         </div>
       </div>
 
@@ -189,7 +147,6 @@
   </div>
 </div>
 
-<!-- ✅ Template mostrado mientras carga el documento -->
 <ng-template #cargando>
   <div class="loading">
     <p>⏳ Cargando alerta...</p>

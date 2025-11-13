@@ -14,6 +14,7 @@ import { Timestamp } from 'firebase/firestore';
 export class Partedetalle implements OnInit {
   multa: any = null;
   usuarioNombre: string | null = null;
+  usuarioActual: any = null; // 🔹 Usuario logueado
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +23,28 @@ export class Partedetalle implements OnInit {
   ) {}
 
   async ngOnInit() {
+    // === Recuperar usuario logueado ===
+    const usuarioGuardado = localStorage.getItem('usuario');
+    if (!usuarioGuardado) {
+      alert('Debes iniciar sesión para acceder.');
+      this.router.navigate(['/']);
+      return;
+    }
+
+    this.usuarioActual = JSON.parse(usuarioGuardado);
+    this.usuarioNombre = this.usuarioActual.nombre;
+
+    // === Verificar rango permitido ===
+    const rango = this.usuarioActual.rango;
+    console.log('🔹 Rango detectado:', rango);
+
+    if (rango !== 'admin' && rango !== 'multas') {
+      alert('No tienes permiso para ver esta sección.');
+      this.router.navigate(['/menu']);
+      return;
+    }
+
+    // === Cargar multa por ID ===
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.router.navigate(['/multas']);
@@ -38,7 +61,6 @@ export class Partedetalle implements OnInit {
         return;
       }
 
-      // Datos crudos del parte
       const data = docSnap.data() || {};
       this.multa = { id: docSnap.id, ...data };
 
@@ -76,11 +98,9 @@ export class Partedetalle implements OnInit {
       });
       this.multa.fotos = imgs;
 
-      // === Buscar el nombre del creador (en 'users' por uid) ===
+      // === Buscar el nombre del creador ===
       if (this.multa.usuarioUID) {
         await this.cargarUsuarioCreador(this.multa.usuarioUID);
-      } else {
-        this.usuarioNombre = 'Desconocido';
       }
     } catch (err) {
       console.error('Error cargando parte:', err);
@@ -89,7 +109,6 @@ export class Partedetalle implements OnInit {
     }
   }
 
-  // 🔹 Busca en la colección 'users' por el campo uid
   private async cargarUsuarioCreador(uid: string) {
     try {
       const usersCol = collection(this.firestore, 'users');
@@ -98,13 +117,10 @@ export class Partedetalle implements OnInit {
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data() as any;
-        this.usuarioNombre = userData.nombre || 'Sin nombre';
-      } else {
-        this.usuarioNombre = 'Desconocido';
+        this.usuarioNombre = userData.nombre || this.usuarioNombre;
       }
     } catch (err) {
       console.error('Error cargando usuario creador:', err);
-      this.usuarioNombre = 'Desconocido';
     }
   }
 

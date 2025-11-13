@@ -1,12 +1,12 @@
 <div class="container">
-
   <header class="navbar">
-    <div class="navbar-left">
-      <img src="assets/logo.png" alt="Logo" class="logo">
-      <a class="app-name" routerLink="/menu">ReportaYa</a>
-    </div>
-    <div class="usuario">Usuario: #######</div>
+  <div class="navbar-left">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <a class="app-name" routerLink="/menu">ReportaYa</a>
+  </div>
+  <div class="usuario">Usuario: {{ usuario?.rango || 'Desconocido' }}</div>
   </header>
+
 
   <div class="tabla-container">
     <h1 class="titulo-alertas">Lista de Cámaras Solicitadas</h1>
@@ -21,7 +21,7 @@
       <input type="date" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input">
     </div>
 
-    <table class="tabla-alertas">
+    <table class="tabla-alertas" *ngIf="camarasSolicitadas.length > 0; else sinDatos">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -44,7 +44,10 @@
           <td>{{ camara.fecha }}</td>
         </tr>
       </tbody>
-
     </table>
+
+    <ng-template #sinDatos>
+      <p class="sin-datos">No hay cámaras solicitadas disponibles.</p>
+    </ng-template>
   </div>
 </div>

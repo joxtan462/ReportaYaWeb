@@ -1,23 +1,25 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-</head>
-<body class="Centro">
-    
+<div class="Centro">
   <div class="login-container">
     <h1 class="Titulo">Iniciar Sesión</h1>
 
-    <label for="usuario" class="Usuario">Usuario</label>
-    <input type="text" id="usuario" placeholder="Ingresa tu usuario">
+    <label for="usuario">Usuario</label>
+    <input
+      type="text"
+      id="usuario"
+      placeholder="Ingresa tu usuario"
+      [(ngModel)]="usuario"
+    />
 
-    <label for="contraseña" class="Contraseña">Contraseña</label>
-    <input type="password" id="contraseña" placeholder="Ingresa tu contraseña">
+    <label for="contrasena">Contraseña</label>
+    <input
+      type="password"
+      id="contrasena"
+      placeholder="Ingresa tu contraseña"
+      [(ngModel)]="contrasena"
+    />
 
-    <button [routerLink]="'/menu'">Iniciar Sesión</button>
+    <button (click)="iniciarSesion()">Iniciar Sesión</button>
+
+    <p *ngIf="error" class="error">{{ error }}</p>
   </div>
-</body>
-
-</html>
+</div>

@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { UsuarioService, Usuario } from '../../servicios/usuario.service';
 
 let L: any;
 
@@ -18,16 +19,19 @@ export class Mapa implements AfterViewInit {
   alertas$: Observable<any[]> | undefined;
   private isBrowser: boolean;
   private userMarker: any = null;
+  private marcadores = new Map<string, any>();
+  usuario: Usuario | null = null;
 
   constructor(
     private firestore: Firestore,
     private router: Router,
     private zone: NgZone,
+    private usuarioService: UsuarioService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    this.usuario = this.usuarioService.usuario;
 
-    // 🔹 Cargar datos de Firebase dentro del contexto Angular
     if (this.isBrowser) {
       const reportesRef = collection(this.firestore, 'reportes');
       this.alertas$ = collectionData(reportesRef, { idField: 'id' });
@@ -40,6 +44,8 @@ export class Mapa implements AfterViewInit {
     const leaflet = await import('leaflet');
     L = leaflet;
 
+    // 🔹 Configurar íconos personalizados desde /assets/leaflet/
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
       iconUrl: 'assets/leaflet/marker-icon.png',
@@ -48,13 +54,31 @@ export class Mapa implements AfterViewInit {
 
     await this.inicializarMapa();
 
-    // 🔹 Cargar alertas
+    // 🔹 Suscribirse a cambios en "reportes"
     this.alertas$?.subscribe((alertas) => {
       if (!this.map) return;
+
       this.zone.runOutsideAngular(() => {
+        const idsActuales = new Set(alertas.map(a => a.id));
+
+        // 🧹 Eliminar marcadores que ya no existen
+        this.marcadores.forEach((marker, id) => {
+          if (!idsActuales.has(id)) {
+            this.map.removeLayer(marker);
+            this.marcadores.delete(id);
+          }
+        });
+
+        // ➕ Agregar o actualizar
         alertas.forEach((alerta) => {
-          if (alerta.coordenadas?.lat && alerta.coordenadas?.lng) {
-            this.agregarMarcador(alerta);
+          if (!alerta.coordenadas?.lat || !alerta.coordenadas?.lng) return;
+
+          const existente = this.marcadores.get(alerta.id);
+          if (existente) {
+            existente.setLatLng([alerta.coordenadas.lat, alerta.coordenadas.lng]);
+          } else {
+            const nuevo = this.crearMarcador(alerta);
+            this.marcadores.set(alerta.id, nuevo);
           }
         });
       });
@@ -76,7 +100,7 @@ export class Mapa implements AfterViewInit {
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; OpenStreetMap contributors'
       }).addTo(this.map);
 
       this.map.whenReady(() => {
@@ -86,19 +110,18 @@ export class Mapa implements AfterViewInit {
     });
   }
 
-  agregarMarcador(alerta: any) {
-    if (!this.map) return;
-
+  crearMarcador(alerta: any) {
     const icono = L.icon({
-      iconUrl: 'assets/pin.png',
+      iconUrl: 'assets/leaflet/marker-icon.png',
       iconSize: [40, 40],
       iconAnchor: [20, 40],
       popupAnchor: [0, -40]
     });
 
-    const marker = L.marker([alerta.coordenadas.lat, alerta.coordenadas.lng], {
-      icon: icono
-    }).addTo(this.map);
+    const marker = L.marker(
+      [alerta.coordenadas.lat, alerta.coordenadas.lng],
+      { icon: icono }
+    ).addTo(this.map);
 
     const estado =
       alerta.estado?.pendiente
@@ -113,12 +136,19 @@ export class Mapa implements AfterViewInit {
       Estado: ${estado}
     `);
 
-    marker.on('click', () => this.router.navigate(['/alertadetalle', alerta.id]));
+    marker.on('click', () =>
+      this.router.navigate(['/alertadetalle', alerta.id])
+    );
+
+    return marker;
   }
 
-  // 🧭 NUEVO: Centrar mapa en ubicación del usuario
   centrarEnUsuario() {
     if (!this.map || !navigator.geolocation) return;
+
+    const btn = document.querySelector('.btn-geo') as HTMLButtonElement;
+    btn.textContent = '⌛';
+    btn.disabled = true;
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -127,12 +157,11 @@ export class Mapa implements AfterViewInit {
 
         this.map.setView([lat, lng], 15, { animate: true });
 
-        // Si ya existe el marcador del usuario, solo moverlo
         if (this.userMarker) {
           this.userMarker.setLatLng([lat, lng]);
         } else {
           const iconoUsuario = L.icon({
-            iconUrl: 'assets/usuario.png', // puedes cambiar el ícono
+            iconUrl: 'assets/leaflet/marker-icon-2x.png',
             iconSize: [45, 45],
             iconAnchor: [22, 45]
           });
@@ -140,10 +169,15 @@ export class Mapa implements AfterViewInit {
             .addTo(this.map)
             .bindPopup('Tu ubicación');
         }
+
+        btn.textContent = '📍';
+        btn.disabled = false;
       },
       (error) => {
         console.error('Error al obtener ubicación:', error);
         alert('No se pudo acceder a tu ubicación.');
+        btn.textContent = '📍';
+        btn.disabled = false;
       }
     );
   }

@@ -1,11 +1,11 @@
-<div class="container">
-  <!-- Navbar (no tocar) -->
+<div class="container" *ngIf="accesoPermitido; else sinAcceso">
+  <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-left">
       <img src="assets/logo.png" alt="Logo" class="logo" />
       <a class="app-name" routerLink="/menu">ReportaYa</a>
     </div>
-    <div class="usuario">Usuario: #######</div>
+    <div class="usuario">Usuario: {{ usuarioNombre }}</div>
   </header>
 
   <!-- Contenido principal -->
@@ -14,7 +14,7 @@
 
     <!-- Filtros -->
     <div class="filtros">
-      <input type="date" placeholder="Buscar por fecha" [(ngModel)]="filtroFecha" class="filtro-input" />
+      <input type="date" [(ngModel)]="filtroFecha" class="filtro-input" />
       <input type="text" placeholder="Buscar por infracción" [(ngModel)]="filtroInfraccion" class="filtro-input" />
       <input type="text" placeholder="Buscar por comentarios" [(ngModel)]="filtroComentarios" class="filtro-input" />
       <input type="text" placeholder="Buscar por ubicación" [(ngModel)]="filtroUbicacion" class="filtro-input" />
@@ -41,20 +41,16 @@
         >
           <td>{{ parte.id }}</td>
 
-          <!-- ✅ Fecha: se adapta a Timestamp o string -->
+          <!-- Fecha -->
           <td>
             <ng-container *ngIf="parte.fecha">
-              <!-- Si es Timestamp -->
               <span *ngIf="parte.fecha.toDate; else fechaTexto">
                 {{ parte.fecha.toDate() | date:'d \'de\' MMMM \'de\' y, h:mm:ss a zzzz':'UTC-3' }}
               </span>
-              <!-- Si ya es string -->
               <ng-template #fechaTexto>
                 {{ parte.fecha }}
               </ng-template>
             </ng-container>
-
-            <!-- Si no existe la propiedad fecha -->
             <ng-container *ngIf="!parte.fecha">-</ng-container>
           </td>
 
@@ -71,3 +67,11 @@
     </table>
   </div>
 </div>
+
+<ng-template #sinAcceso>
+  <div class="no-acceso">
+    <h2>🚫 Acceso restringido</h2>
+    <p>No tienes permiso para ver esta sección.</p>
+    <button routerLink="/menu">Volver al menú</button>
+  </div>
+</ng-template>

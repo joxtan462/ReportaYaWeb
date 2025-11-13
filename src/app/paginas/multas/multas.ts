@@ -9,8 +9,11 @@ import {
   collection,
   collectionData,
   query,
-  orderBy
+  orderBy,
+  doc,
+  getDoc
 } from '@angular/fire/firestore';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
 // 🔹 Registrar idioma español (Chile)
@@ -33,21 +36,58 @@ export class Multas {
   filtroUbicacion = '';
   filtroPatente = '';
 
-  constructor(private firestore: Firestore, private router: Router) {
-    // 🔹 Referencia a la colección 'partes'
+  usuarioNombre: string = '';
+  usuarioRango: string = '';
+  accesoPermitido: boolean = false;
+
+  constructor(
+    private firestore: Firestore,
+    private auth: Auth,
+    private router: Router
+  ) {
+    // 🔹 Verificar sesión actual
+    onAuthStateChanged(this.auth, async (user) => {
+      if (!user) {
+        this.router.navigate(['/']); // si no hay usuario, redirige al login
+        return;
+      }
+
+      // 🔹 Buscar información del usuario en Firestore
+      const userRef = doc(this.firestore, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        this.usuarioNombre = data['nombre'] || 'Desconocido';
+        this.usuarioRango = data['rango'] || 'sin-rango';
+
+        // 🔹 Solo admin y multas pueden acceder
+        this.accesoPermitido =
+          this.usuarioRango === 'admin' || this.usuarioRango === 'multas';
+
+        if (!this.accesoPermitido) {
+          alert('⚠️ No tienes permiso para acceder a esta sección.');
+          this.router.navigate(['/menu']);
+          return;
+        }
+
+        // 🔹 Cargar partes si tiene acceso
+        this.cargarPartes();
+      } else {
+        alert('⚠️ No se encontró tu información de usuario.');
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+  private cargarPartes() {
     const partesRef = collection(this.firestore, 'partes');
-
-    // 🔹 Ordenar por campo 'fecha' (Timestamp o string)
     const partesQuery = query(partesRef, orderBy('fecha', 'asc'));
-
-    // 🔹 Obtenemos los datos de Firestore
     this.partes$ = collectionData(partesQuery, { idField: 'id' });
 
-    // 🔹 Debug para verificar que llegan bien los datos
     this.partes$.subscribe((d) => console.log('✅ partes recibidas:', d));
   }
 
-  // 🔹 Navegar a detalle del parte
   irADetalle(parte: any) {
     const id = parte?.id?.toString();
     if (!id) {
