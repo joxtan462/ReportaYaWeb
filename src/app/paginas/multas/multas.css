@@ -1,0 +1,295 @@
+/* =============================================
+   LAYOUT GENERAL DE MULTAS
+============================================= */
+.main-content {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1a237e; /* Azul oscuro */
+  color: white;
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  top: 70px; /* Para que no se sobreponga al header */
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 8px;
+}
+
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  color: #e3f2fd;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: #3949ab;
+  color: white;
+}
+
+.sidebar .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #1a237e; /* Azul oscuro */
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-muni,
+.logo-app {
+  height: 40px;
+  object-fit: contain;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-logout {
+  background-color: #e53935; /* Rojo */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #c62828; /* Rojo más oscuro */
+}
+
+.main-area {
+  flex: 1;
+  margin-left: 240px; /* Espacio para el sidebar */
+  padding: 90px 40px 40px; /* Ajuste por header fijo */
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 60px);
+}
+
+/* =============================================
+   CONTENIDO DE MULTAS
+============================================= */
+.multas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.multas-container h2 {
+  margin-bottom: 25px;
+  color: #1a237e;
+  font-weight: 600;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =============================================
+   FILTROS
+============================================= */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filters input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.filters input:focus {
+  border-color: #1a237e;
+  box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
+}
+
+/* =============================================
+   LISTA DE MULTAS
+============================================= */
+.multas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.multa-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.multa-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.multa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.fecha {
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.patente {
+  color: #777;
+}
+
+.multa-body p {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.multa-body strong {
+  color: #1a237e;
+}
+
+.multa-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #eee;
+}
+
+.id {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background-color: #6c757d;
+}
+
+.estado {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.estado.pendiente {
+  background-color: #757575;
+}
+
+.estado.enProceso {
+  background-color: #ff9800;
+}
+
+.estado.resuelto {
+  background-color: #4caf50;
+}
+
+.estado.descartado {
+  background-color: #f44336;
+}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 15px;
+    left: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .main-area {
+    margin-left: 0;
+    padding: 70px 15px 30px;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .multas-container {
+    padding: 20px 15px;
+  }
+
+  .multa-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .multa-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,166 @@
+<header class="header">
+  <div class="logo-container">
+    <img src="assets/Logo-San-Bernardo.png" alt="Municipalidad de San Bernardo" class="logo-muni" />
+    <img src="assets/logo.png" alt="Sistema de Alertas" class="logo-app" />
+  </div>
+
+  <div class="user-greeting">
+    <span style="color: white">Bienvenido, <strong>{{ usuarioNombre || 'Usuario' }}</strong> ({{ usuarioRango || 'Invitado' }})</span>
+    <button class="btn-logout" (click)="cerrarSesion()">🚪 Cerrar Sesión</button>
+  </div>
+</header>
+
+<div class="main-content">
+
+  <!-- MENÚ LATERAL -->
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li>
+          <a [routerLink]="['/menu']" routerLinkActive="active">
+            <span class="icon">🏠</span> Menú
+          </a>
+        </li>
+        <li *ngIf="puedeVer('alertasvecinales')">
+          <a [routerLink]="['/alertasvecinales']" routerLinkActive="active">
+            <span class="icon">🚨</span> Alertas Vecinales
+          </a>
+        </li>
+
+        <!-- 🔹 Ruta: camarassolicitadas -->
+        <li *ngIf="puedeVer('camarassolicitadas')">
+          <a [routerLink]="['/camarassolicitadas']" routerLinkActive="active">
+            <span class="icon">📹</span> Cámaras Solicitadas
+          </a>
+        </li>
+
+        <!-- 🔹 Ruta: mapa -->
+        <li *ngIf="puedeVer('mapa')">
+          <a [routerLink]="['/mapa']" routerLinkActive="active">
+            <span class="icon">🗺️</span> Mapa en Vivo
+          </a>
+        </li>
+
+        <!-- 🔹 Ruta: multas -->
+        <li *ngIf="puedeVer('multas')">
+          <a [routerLink]="['/multas']" routerLinkActive="active">
+            <span class="icon">💰</span> Multas
+          </a>
+        </li>
+
+        <!-- 🔹 Ruta: crearusuario -->
+        <li *ngIf="puedeVer('crearusuario') && !isCurrentRoute('/crearusuario')">
+          <a [routerLink]="['/crearusuario']" routerLinkActive="active">
+            <span class="icon">👥</span> Crear Usuario
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-area">
+    <div class="formulario-card">
+      <div class="formulario-header">
+        <div class="formulario-icon">
+          👥
+        </div>
+        <h2>Crear Nuevo Usuario</h2>
+        <p>Registra un nuevo usuario en el sistema con los datos necesarios.</p>
+      </div>
+
+      <form class="formulario" #usuarioForm="ngForm" (ngSubmit)="crearUsuario(usuarioForm)">
+        <div class="campo">
+          <label for="nombre">
+            <span class="icono-campo">👤</span> Nombre Completo
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            [(ngModel)]="nombre"
+            required
+            placeholder="Ej: Juan Pérez"
+            class="input-text"
+            [class.error]="usuarioForm.form.get('nombre')?.invalid && usuarioForm.form.get('nombre')?.touched"
+          />
+          <div class="mensaje-error" *ngIf="usuarioForm.form.get('nombre')?.invalid && usuarioForm.form.get('nombre')?.touched">
+            El nombre es obligatorio.
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="correo">
+            <span class="icono-campo">📧</span> Correo Electrónico
+          </label>
+          <input
+            type="email"
+            id="correo"
+            name="correo"
+            [(ngModel)]="correo"
+            required
+            placeholder="Ej: juan@empresa.cl"
+            class="input-text"
+            [class.error]="usuarioForm.form.get('correo')?.invalid && usuarioForm.form.get('correo')?.touched"
+          />
+          <div class="mensaje-error" *ngIf="usuarioForm.form.get('correo')?.invalid && usuarioForm.form.get('correo')?.touched">
+            Ingresa un correo válido.
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="password">
+            <span class="icono-campo">🔒</span> Contraseña
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="••••••••"
+            class="input-text"
+            minlength="6"
+            [class.error]="usuarioForm.form.get('password')?.invalid && usuarioForm.form.get('password')?.touched"
+          />
+          <div class="mensaje-error" *ngIf="usuarioForm.form.get('password')?.invalid && usuarioForm.form.get('password')?.touched">
+            La contraseña debe tener al menos 6 caracteres.
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="rango">
+            <span class="icono-campo">⚙️</span> Rango
+          </label>
+          <select
+            id="rango"
+            name="rango"
+            [(ngModel)]="rango"
+            required
+            class="input-select"
+            [class.error]="usuarioForm.form.get('rango')?.invalid && usuarioForm.form.get('rango')?.touched"
+          >
+            <option value="">Selecciona un rango</option>
+            <option value="admin">Administrador</option>
+            <option value="camaras">Cámaras</option>
+            <option value="multas">Multas</option>
+            <option value="inspector">Inspector</option>
+            <option value="usuario">Usuario</option>
+          </select>
+          <div class="mensaje-error" *ngIf="usuarioForm.form.get('rango')?.invalid && usuarioForm.form.get('rango')?.touched">
+            Selecciona un rango.
+          </div>
+        </div>
+
+        <div class="acciones">
+          <button type="button" class="btn-secondary" (click)="volver()">
+            ← Volver
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="!usuarioForm.form.valid">
+            👥 Crear Usuario
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

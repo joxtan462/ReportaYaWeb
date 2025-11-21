@@ -1,0 +1,231 @@
+/* =============================================
+   LAYOUT GENERAL DEL MAPA
+============================================= */
+.main-content {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1a237e;
+  color: white;
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  top: 70px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 8px;
+}
+
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  color: #e3f2fd;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: #3949ab;
+  color: white;
+}
+
+.sidebar .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #1a237e;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-muni,
+.logo-app {
+  height: 40px;
+  object-fit: contain;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-logout {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #c62828;
+}
+
+.main-area {
+  flex: 1;
+  margin-left: 240px;
+  padding: 90px 40px 40px;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 60px);
+}
+
+/* =============================================
+   MAPA
+============================================= */
+.mapa-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mapa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mapa-header h2 {
+  margin: 0;
+  color: #1a237e;
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acciones-mapa {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-geo {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-geo:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-geo:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.mapa {
+  height: 600px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================
+   ESTILOS PARA MARCADORES
+============================================= */
+.alerta-marker {
+  filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.5));
+}
+
+.user-marker {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 255, 0.5));
+}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 15px;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .main-area {
+    margin-left: 0;
+    padding: 70px 15px 30px;
+  }
+
+  .mapa-container {
+    padding: 20px;
+  }
+
+  .mapa-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .acciones-mapa {
+    align-self: flex-end;
+  }
+
+  .mapa {
+    height: 400px;
+  }
+}

@@ -1,0 +1,323 @@
+/* =============================================
+   LAYOUT GENERAL DE ALERTASVECINALES
+============================================= */
+.main-content {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1a237e; /* Azul oscuro */
+  color: white;
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  top: 70px; /* Para que no se sobreponga al header */
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 8px;
+}
+
+.sidebar nav ul li a {
+  display: flex;
+  align-items: center;
+  color: #e3f2fd;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sidebar nav ul li a:hover {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* =============================================
+   ESTILO PARA EL BOTÓN ACTIVO
+============================================= */
+.sidebar nav ul li a.active {
+  background-color: white; /* Fondo blanco para el botón activo */
+  color: #1a237e; /* Texto azul oscuro para contraste */
+  font-weight: bold;
+  border-left: 4px solid #1a237e; /* Opcional: línea izquierda para destacar */
+}
+
+.sidebar .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #1a237e; /* Azul oscuro */
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-muni,
+.logo-app {
+  height: 40px;
+  object-fit: contain;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-logout {
+  background-color: #e53935; /* Rojo */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #c62828; /* Rojo más oscuro */
+}
+
+.main-area {
+  flex: 1;
+  margin-left: 240px; /* Espacio para el sidebar */
+  padding: 90px 40px 40px; /* Ajuste por header fijo */
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 60px);
+}
+
+/* =============================================
+   CONTENIDO DE ALERTASVECINALES
+============================================= */
+.alertas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.alertas-container h2 {
+  margin-bottom: 25px;
+  color: #1a237e;
+  font-weight: 600;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =============================================
+   FILTROS
+============================================= */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filters input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.filters input:focus {
+  border-color: #1a237e;
+}
+
+/* =============================================
+   LISTA DE ALERTAS
+============================================= */
+.alertas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.alerta-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 25px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  min-height: 180px;
+  font-size: 17px; /* ⬆️ Aumentado globalmente para mejor legibilidad */
+}
+
+.alerta-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.alerta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 16px; /* ⬆️ Aumentado */
+  color: #555;
+}
+
+.correo {
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.fecha {
+  color: #777;
+}
+
+.alerta-body p {
+  margin: 8px 0;
+  font-size: 17px; /* ⬆️ Aumentado */
+  color: #333;
+  line-height: 1.5;
+}
+
+.alerta-body strong {
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.alerta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.prioridad-acciones {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.prioridad {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px; /* ⬇️ Ligeramente reducido para equilibrio */
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  /* ❌ Eliminado min-width para evitar espacio innecesario */
+}
+
+.prioridad.baja {
+  background-color: #757575;
+}
+
+.prioridad.media {
+  background-color: #ff9800;
+}
+
+.prioridad.alta {
+  background-color: #e53935;
+}
+
+.acciones button {
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px; /* ⬇️ Reducido padding */
+  font-size: 14px; /* ⬇️ Reducido tamaño de fuente */
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.2s;
+  /* ❌ Eliminado min-width para que se ajusten al texto */
+  text-align: center;
+}
+
+.acciones button:hover {
+  background-color: #3949ab;
+}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 15px;
+    left: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .main-area {
+    margin-left: 0;
+    padding: 70px 15px 30px;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .alertas-container {
+    padding: 20px 15px;
+  }
+
+  .alerta-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .acciones {
+    margin-top: 10px;
+  }
+
+  .acciones button {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+}
